@@ -20,7 +20,22 @@ trophies.forEach(trophy => {
     elemTrophyList.appendChild(figure);
 });
 
-// Toggle trophies
+
 function toggleTrophy() {
     this.dataset.unlocked ^= true;
+    generateFlairCodes();
+}
+
+
+function generateFlairCodes() {
+    let flairCodeOld = "";
+    let flairCodeNew = "";
+    trophies.forEach(trophy => {
+        if (document.getElementById(trophy.id).dataset.unlocked === "1") {
+            flairCodeOld += trophy.oldCode;
+            flairCodeNew += ":" + trophy.newCode + ":";
+        }
+    });
+    document.getElementById("output-old").value = flairCodeOld;
+    document.getElementById("output-new").value = flairCodeNew;
 }
