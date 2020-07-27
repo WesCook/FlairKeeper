@@ -7,13 +7,21 @@ h1 {
 	font-weight: bold;
 }
 
+input[type="text"] {
+	background-color: #eee;
+	border-bottom: 0;
+}
+input[type="text"]:focus {
+	z-index: 1;
+}
+
 .tip {
 	font-size: 0.8em;
 }
 
 #output-old,
 #output-new {
-	background-color: #ccc;
+	background-color: #bbb9b9;
 }
 
 #export-btn {
