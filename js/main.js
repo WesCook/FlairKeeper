@@ -1,2 +1,2 @@
-import {redditAccount} from 'config.js';
-console.log(redditAccount);
+import {redditAccount, importSubreddit, exportSubreddits} from '../config.js';
+console.log(importSubreddit);
