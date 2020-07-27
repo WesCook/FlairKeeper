@@ -1,0 +1,12 @@
+.disabled {
+	display: none;
+}
+
+.faded {
+	opacity: 0.15;
+	pointer-events: none;
+}
+
+.ignore-grid {
+	grid-column: 1/-1;
+}

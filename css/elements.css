@@ -1,0 +1,14 @@
+h1 {
+	font-family: "EB Garamond";
+	font-weight: bold;
+}
+
+#output-old,
+#output-new {
+	background-color: #ccc;
+}
+
+#export-btn {
+	width: 160px;
+	height: 40px;
+}
