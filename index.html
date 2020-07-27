@@ -10,10 +10,39 @@
 
 	<main class="container">
 		<h1>Souls Flair Bot</h1>
-		<div class="trophy-buttons">
+
+		<section class="section-input section-grid">
+			<label for="username">Username</label>
+			<input type="text" id="username" size="20">
+			<button id="import-btn">Import</button>
+			<span class="spinner disabled"></span>
+			<p class="ignore-grid">Enter a reddit username to import their existing trophies.</p>
+		</section>
+
+		<section class="section-trophies faded">
 			<img src="img/trophy-platinum.png" alt="Platinum Trophy" width="16" height="16">
+			<img src="img/trophy-bronze.png" alt="Bronze Trophy" width="16" height="16">
 			<img src="img/trophy-gold.png" alt="Gold Trophy" width="16" height="16">
-		</div>
+			<img src="img/trophy-green.png" alt="Green Trophy" width="16" height="16">
+			<img src="img/trophy-purple.png" alt="Purple Trophy" width="16" height="16">
+			<img src="img/trophy-magenta.png" alt="Magenta Trophy" width="16" height="16">
+			<img src="img/trophy-charcoal.png" alt="Charcoal Trophy" width="16" height="16">
+			<img src="img/trophy-ash.png" alt="Ash Trophy" width="16" height="16">
+			<p>Please select the trophies to assign to the user.</p>
+		</section>
+
+		<section class="section-output section-grid faded">
+			<label for="output-old">Old Reddit</label>
+			<input type="text" id="output-old" size="20" readonly><button id="output-old-copy">Copy</button>
+
+			<label for="output-new">New Reddit</label>
+			<input type="text" id="output-new" size="20" readonly><button id="output-new-copy">Copy</button>
+		</section>
+
+		<section class="section-export faded">
+			<button id="export-btn" size="30">Export</button>
+			<p>You can update these entries manually, or export automatically.</p>
+		</section>
 	</main>
 
 	<script type="module" src="js/main.js"></script>
