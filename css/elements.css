@@ -1,6 +1,14 @@
+p {
+	margin: 10px 0;
+}
+
 h1 {
 	font-family: "EB Garamond";
 	font-weight: bold;
+}
+
+.tip {
+	font-size: 0.8em;
 }
 
 #output-old,
@@ -11,4 +19,20 @@ h1 {
 #export-btn {
 	width: 160px;
 	height: 40px;
+	margin-bottom: 10px;
+}
+
+#trophy-list {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+}
+@media only screen and (max-width: 500px) {
+	#trophy-list {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+@media only screen and (max-width: 350px) {
+	#trophy-list {
+		grid-template-columns: 1fr;
+	}
 }

@@ -23,9 +23,9 @@ const trophies = [
 	{name: "Dark Souls 2", icon: "./img/trophies/gold.png"},
 	{name: "Bloodborne", icon: "./img/trophies/green.png"},
 	{name: "Dark Souls 3", icon: "./img/trophies/purple.png"},
-	{name: "Sekiro", icon: "./img/trophies/magenta.png"},
-	{name: "Elden Ring", icon: "./img/trophies/charcoal.png"},
-	{name: "ZZT", icon: "./img/trophies/ash.png"}
+	{name: "Sekiro", icon: "./img/trophies/magenta.png"}
+	// {name: "Elden Ring", icon: "./img/trophies/charcoal.png"}
+	// {name: "ZZT", icon: "./img/trophies/ash.png"}
 ]
 
 export {redditAccount, importSubreddit, exportSubreddits, trophies};

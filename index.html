@@ -13,37 +13,37 @@
 </head>
 <body>
 
-	<main class="container">
-		<h1>Souls Flair Bot</h1>
+	<h1>Souls Flair Bot</h1>
 
-		<section class="section-input section-grid">
+	<section class="section-input">
+		<div class="input-grid">
 			<label for="username">Username</label>
 			<input type="text" id="username" size="20">
 			<button id="import-btn">Import</button>
 			<span class="spinner disabled"></span>
-			<p class="ignore-grid">Enter a reddit username to import their existing trophies.</p>
-		</section>
+		</div>
+		<p class="tip">Enter a reddit username to import their existing trophies.</p>
+	</section>
 
-		<section class="section-trophies">
-			<div id="trophy-list"></div>
-			<p>Please select the trophies to assign to the user.</p>
-		</section>
+	<section class="section-trophies">
+		<div id="trophy-list"></div>
+		<p class="tip">Please select the trophies to assign to the user.</p>
+	</section>
 
-		<section class="section-output section-grid faded">
+	<section class="section-export">
+		<div class="input-grid">
 			<label for="output-old">Old Reddit</label>
 			<input type="text" id="output-old" size="20" readonly><button id="output-old-copy">Copy</button>
 
 			<label for="output-new">New Reddit</label>
 			<input type="text" id="output-new" size="20" readonly><button id="output-new-copy">Copy</button>
-		</section>
+		</div>
 
-		<section class="section-export faded">
-			<button id="export-btn" size="30">Export</button>
-			<p>You can update these entries manually, or export automatically.</p>
-		</section>
-	</main>
+		<p class="tip">You can update these entries manually, or export automatically.</p>
+		<button id="export-btn" size="30">Export</button>
+	</section>
 
-	<script type="module" src="./js/main.js"></script>
+<script type="module" src="./js/main.js"></script>
 
 </body>
 </html>
