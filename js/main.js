@@ -1,5 +1,5 @@
 import {redditAccount, importSubreddit, exportSubreddits, trophies} from '../config.js';
-import {copy} from './clipboard.js';
+import {copy, displayCopied} from './clipboard.js';
 import {generateCodes} from './generateCodes.js';
 
 let elemTrophyList = document.getElementById("trophy-list");
@@ -23,11 +23,11 @@ elemOutputNew.addEventListener("focus", () => {
 // Detect clicks on Copy
 elemCopyOld.addEventListener("click", () => {
 	copy(elemOutputOld.value);
-	elemCopyOld.textContent = "Copied!";
+	displayCopied(elemCopyOld);
 });
 elemCopyNew.addEventListener("click", () => {
 	copy(elemOutputNew.value);
-	elemCopyNew.textContent = "Copied!";
+	displayCopied(elemCopyNew);
 });
 
 
