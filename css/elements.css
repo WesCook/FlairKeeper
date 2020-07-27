@@ -36,3 +36,10 @@ h1 {
 		grid-template-columns: 1fr;
 	}
 }
+
+.trophy {
+	transition: opacity 0.1s ease;
+}
+.trophy[data-unlocked="0"] {
+	opacity: 25%;
+}

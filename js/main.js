@@ -7,7 +7,9 @@ trophies.forEach(trophy => {
     let img = document.createElement("img");
     let figcaption = document.createElement("figcaption");
 
+    figure.classList = "trophy";
     figure.id = trophy.id;
+    figure.dataset.unlocked = 0;
     img.src = trophy.icon;
     img.alt = trophy.name;
     figcaption.textContent = trophy.name;
@@ -20,5 +22,5 @@ trophies.forEach(trophy => {
 
 // Toggle trophies
 function toggleTrophy() {
-    console.log(this.id);
+    this.dataset.unlocked ^= true;
 }
