@@ -12,7 +12,23 @@ html {
 	box-sizing: inherit;
 }
 
+/* Layout */
+html, body {
+    height: 100%;
+}
+
 body {
     background-color: #1e1e1e;
     color: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    max-width: 50%;
+    text-align: center;
+}
+
+.trophy-buttons {
 }
