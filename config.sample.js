@@ -9,6 +9,7 @@ const redditAuth = {
 }
 
 // The subreddit to import trophy data from
+// For userpage subreddits, prefix with u_.  eg. u_SoulsFlairBot
 const importSubreddit = "darksouls3";
 
 // The subreddits to export trophy data to

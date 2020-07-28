@@ -12,9 +12,28 @@ let elemCopyNew = document.getElementById("output-new-copy");
 
 createTrophyList();
 setupEventListeners();
-
 const reddit = getAuth();
-reddit.getModeratedSubreddits().then(console.log);
+
+checkSubredditPermission(); // async
+
+function checkSubredditPermission() {
+	reddit.getModeratedSubreddits().then(subreddits => {
+		// TODO: Look into case sensitivity of reddit API
+		console.log("Verifying mod access to all required subreddits");
+		let moddedSubs = subreddits.map(sub => sub.display_name)
+
+		if (!moddedSubs.includes(importSubreddit))
+			console.log("Not a moderator of import sub " + importSubreddit);
+
+		exportSubreddits.forEach(sub => {
+			if (!moddedSubs.includes(sub))
+				console.log("Not a moderator of export sub " + sub);
+		});
+
+		console.log("All subreddits checked");
+	});
+	// TODO: Check flair permission as well
+}
 
 
 function createTrophyList() {
