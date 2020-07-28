@@ -1,6 +1,7 @@
-import {redditAccount, importSubreddit, exportSubreddits, trophies} from '../config.js';
+import {importSubreddit, exportSubreddits, trophies} from '../config.js';
 import {copy, displayCopied} from './clipboard.js';
 import {generateCodes} from './generateCodes.js';
+import {getAuth} from './snoowrap.js';
 
 let elemTrophyList = document.getElementById("trophy-list");
 let elemOutputOld = document.getElementById("output-old");
@@ -8,27 +9,12 @@ let elemOutputNew = document.getElementById("output-new");
 let elemCopyOld = document.getElementById("output-old-copy");
 let elemCopyNew = document.getElementById("output-new-copy");
 
+
 createTrophyList();
+setupEventListeners();
 
-
-// Select whole code output on focus
-elemOutputOld.addEventListener("focus", () => {
-	elemOutputOld.select();
-});
-elemOutputNew.addEventListener("focus", () => {
-	elemOutputNew.select();
-});
-
-
-// Detect clicks on Copy
-elemCopyOld.addEventListener("click", () => {
-	copy(elemOutputOld.value);
-	displayCopied(elemCopyOld);
-});
-elemCopyNew.addEventListener("click", () => {
-	copy(elemOutputNew.value);
-	displayCopied(elemCopyNew);
-});
+const reddit = getAuth();
+reddit.getModeratedSubreddits().then(console.log);
 
 
 function createTrophyList() {
@@ -63,4 +49,25 @@ function updateCodes() {
 	let codes = generateCodes();
 	elemOutputOld.value = codes.old;
 	elemOutputNew.value = codes.new;
+}
+
+
+function setupEventListeners() {
+	// Select whole code output on focus
+	elemOutputOld.addEventListener("focus", () => {
+		elemOutputOld.select();
+	});
+	elemOutputNew.addEventListener("focus", () => {
+		elemOutputNew.select();
+	});
+
+	// Detect clicks on Copy
+	elemCopyOld.addEventListener("click", () => {
+		copy(elemOutputOld.value);
+		displayCopied(elemCopyOld);
+	});
+	elemCopyNew.addEventListener("click", () => {
+		copy(elemOutputNew.value);
+		displayCopied(elemCopyNew);
+	});
 }

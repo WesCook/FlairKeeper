@@ -26,23 +26,24 @@
 	</section>
 
 	<section class="section-trophies">
-		<div id="trophy-list">If you can read this, there's probably a JavaScript error.</div>
+		<div id="trophy-list">If you can read this, there's probably a JavaScript error. <br><br> Are you running in a web server?</div>
 		<p class="tip">Please select the trophies to assign to the user.</p>
 	</section>
 
 	<section class="section-export">
 		<div class="input-grid">
 			<label for="output-old">Old Reddit</label>
-			<input type="text" id="output-old" size="20" readonly><button id="output-old-copy">Copy</button>
+			<input type="text" id="output-old" size="20" readonly><button id="output-old-copy" disabled>Copy</button>
 
 			<label for="output-new">New Reddit</label>
-			<input type="text" id="output-new" size="20" readonly><button id="output-new-copy">Copy</button>
+			<input type="text" id="output-new" size="20" readonly><button id="output-new-copy" disabled>Copy</button>
 		</div>
 
 		<p class="tip">You can update these entries manually, or export automatically.</p>
-		<button id="export-btn" size="30">Export</button>
+		<button id="export-btn" size="30" disabled>Export</button>
 	</section>
 
+	<script type="module" src="./js/libraries/snoowrap-v1.20.1.min.js"></script>
 	<script type="module" src="./js/main.js"></script>
 
 </body>

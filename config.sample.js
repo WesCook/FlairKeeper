@@ -1,7 +1,11 @@
-// The login credentials for the reddit account.  Must be a moderator with flair permission.
-const redditAccount = {
-	username: "",
-	password: ""
+// The authentication credentials for the reddit account
+// Must be a moderator of all import and export subreddits with flair permission
+// Please see readme.md for details on generating these values
+const redditAuth = {
+	userAgent: '',
+	clientId: '',
+	clientSecret: '',
+	refreshToken: ''
 }
 
 // The subreddit to import trophy data from
