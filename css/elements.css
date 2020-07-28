@@ -7,6 +7,10 @@ h1 {
 	font-weight: bold;
 }
 
+button {
+	font-family: "EB Garamond";
+}
+
 input[type="text"] {
 	background-color: #eee;
 	border-bottom: 0;
@@ -28,6 +32,13 @@ input[type="text"]:focus {
 	width: 160px;
 	height: 40px;
 	margin-bottom: 10px;
+}
+
+.section-trophies figure {
+	display: inline-block;
+	margin: 10px;
+	padding: 5px;
+	background-color: #3e3e3e;
 }
 
 #trophy-list {

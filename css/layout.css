@@ -37,10 +37,3 @@ body > section {
 		margin: 0;
 	}
 }
-
-.section-trophies figure {
-	display: inline-block;
-	margin: 10px;
-	padding: 5px;
-	background-color: #3e3e3e;
-}
