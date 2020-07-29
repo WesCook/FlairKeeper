@@ -1,5 +1,3 @@
-import {redditAuth} from '../config.js';
-
 export function getAuth() {
 	return new snoowrap({
 		userAgent: redditAuth.userAgent,

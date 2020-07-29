@@ -4,29 +4,31 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Souls Flair Bot</title>
-	<link rel="stylesheet" href="./css/reset.css">
-	<link rel="stylesheet" href="./css/utility.css">
-	<link rel="stylesheet" href="./css/layout.css">
-	<link rel="stylesheet" href="./css/elements.css">
-	<link rel="stylesheet" href="./css/fonts.css">
-	<link rel="stylesheet" href="./css/animation.css">
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/utility.css">
+	<link rel="stylesheet" href="css/layout.css">
+	<link rel="stylesheet" href="css/common.css">
+	<link rel="stylesheet" href="css/connect-toggle.css">
+	<link rel="stylesheet" href="css/fonts.css">
+	<link rel="stylesheet" href="css/animation.css">
+	<link rel="stylesheet" href="css/trophies.css">
 </head>
 <body>
 
 	<h1>Souls Flair Bot</h1>
 
-	<section class="section-input">
+	<section class="section-username">
 		<div class="input-grid">
 			<label for="username">Username</label>
 			<input type="text" id="username" size="20">
-			<button id="import-btn" disabled>Import</button>
+			<button id="import-btn">Import</button>
 			<span class="spinner disabled"></span>
 		</div>
 		<p class="tip">Enter a redditor name or userpage to import their existing trophies.</p>
 	</section>
 
 	<section class="section-trophies">
-		<div id="trophy-list">If you can read this, there's probably a JavaScript error. <br><br> Are you running on a web server?</div>
+		<div id="trophy-list"></div>
 		<p class="tip">Please select the trophies to assign to the user.</p>
 	</section>
 
@@ -39,12 +41,20 @@
 			<input type="text" id="output-new" size="20" readonly><button id="output-new-copy" disabled>Copy</button>
 		</div>
 
-		<p class="tip">You can update these entries manually, or export automatically.</p>
-		<button id="export-btn" size="30" disabled>Export</button>
+		<button class="btn-big" id="btn-export" size="30">Export</button>
 	</section>
 
-	<script type="module" src="./js/libraries/snoowrap-v1.20.1.min.js"></script>
-	<script type="module" src="./js/main.js"></script>
+	<section class="section-connect">
+		<p>Connect your reddit account to automatically import and export trophy flair data.</p>
+		<p><small>Consider using an account with flair-only permission if sharing with multiple subreddits.</small></p>
+		<a class="btn btn-big" id="btn-connect" href="#">Connect</a>
+	</section>
+
+	<a class="settings bottom-link" href="settings.html">Settings</a>
+
+	<script type="module" src="js/libraries/snoowrap-v1.20.1.min.js"></script>
+	<script type="module" src="js/common.js"></script>
+	<script type="module" src="js/index.js"></script>
 
 </body>
 </html>

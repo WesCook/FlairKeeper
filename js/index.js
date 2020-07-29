@@ -1,42 +1,19 @@
-import {importSubreddit, exportSubreddits, trophies} from '../config.js';
-import {copy, displayCopied} from './clipboard.js';
-import {generateCodes} from './generateCodes.js';
-import {getAuth} from './snoowrap.js';
+import {trophies} from '../config.js';
+import * as clipboard from './modules/clipboard.js';
+import * as flairCodes from './modules/flair-codes.js';
 
-let elemTrophyList = document.getElementById("trophy-list");
+
 let elemOutputOld = document.getElementById("output-old");
 let elemOutputNew = document.getElementById("output-new");
 let elemCopyOld = document.getElementById("output-old-copy");
 let elemCopyNew = document.getElementById("output-new-copy");
 
-
 createTrophyList();
 setupEventListeners();
-const reddit = getAuth();
-
-checkSubredditPermission(); // async
-
-function checkSubredditPermission() {
-	reddit.getModeratedSubreddits().then(subreddits => {
-		// TODO: Look into case sensitivity of reddit API
-		console.log("Verifying mod access to all required subreddits");
-		let moddedSubs = subreddits.map(sub => sub.display_name)
-
-		if (!moddedSubs.includes(importSubreddit))
-			console.log("Not a moderator of import sub " + importSubreddit);
-
-		exportSubreddits.forEach(sub => {
-			if (!moddedSubs.includes(sub))
-				console.log("Not a moderator of export sub " + sub);
-		});
-
-		console.log("All subreddits checked");
-	});
-	// TODO: Check flair permission as well
-}
 
 
 function createTrophyList() {
+	let elemTrophyList = document.getElementById("trophy-list");
 	elemTrophyList.innerHTML = "";
 	trophies.forEach(trophy => {
 		let figure = document.createElement("figure");
@@ -60,14 +37,21 @@ function createTrophyList() {
 
 function toggleTrophy() {
 	this.dataset.unlocked ^= true;
-	updateCodes();
+	updateFlairCodes();
 }
 
 
-function updateCodes() {
-	let codes = generateCodes();
-	elemOutputOld.value = codes.old;
-	elemOutputNew.value = codes.new;
+function updateFlairCodes() {
+	let oldFlair = flairCodes.generateOld();
+	let newFlair = flairCodes.generateNew();
+
+	// Update text boxes values
+	elemOutputOld.value = oldFlair;
+	elemOutputNew.value = newFlair;
+
+	// Enable Copy buttons if code isn't empty
+	elemCopyOld.disabled = !oldFlair;
+	elemCopyNew.disabled = !newFlair;
 }
 
 
@@ -76,17 +60,20 @@ function setupEventListeners() {
 	elemOutputOld.addEventListener("focus", () => {
 		elemOutputOld.select();
 	});
+
 	elemOutputNew.addEventListener("focus", () => {
 		elemOutputNew.select();
 	});
 
+
 	// Detect clicks on Copy
 	elemCopyOld.addEventListener("click", () => {
-		copy(elemOutputOld.value);
-		displayCopied(elemCopyOld);
+		clipboard.copy(elemOutputOld.value);
+		clipboard.displayCopied(elemCopyOld);
 	});
+
 	elemCopyNew.addEventListener("click", () => {
-		copy(elemOutputNew.value);
-		displayCopied(elemCopyNew);
+		clipboard.copy(elemOutputNew.value);
+		clipboard.displayCopied(elemCopyNew);
 	});
 }

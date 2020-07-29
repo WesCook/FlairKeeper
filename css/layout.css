@@ -1,8 +1,4 @@
 body {
-	font-family: 'Source Sans Pro', sans-serif;
-	line-height: 1.4;
-	background-color: #1e1e1e;
-	color: #eee;
 	transition: opacity 1s ease;
 	padding: 20px;
 	font-size: 1.2em;

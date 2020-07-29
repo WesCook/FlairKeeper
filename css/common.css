@@ -1,0 +1,98 @@
+/* General */
+body {
+	background-color: #1e1e1e;
+	color: #eee;
+	font-family: 'Source Sans Pro', sans-serif;
+	line-height: 1.4;
+}
+
+p {
+	margin: 10px 0;
+}
+
+h1 {
+	font-family: "EB Garamond";
+	font-weight: bold;
+}
+
+
+/* Links */
+a,
+a:visited {
+	color: #ccc;
+	text-decoration: none;
+}
+a:hover,
+a:active,
+a:focus {
+	color: #bbb;
+	text-decoration: underline;
+}
+
+
+/* Buttons */
+button:not([disabled]),
+button:visited:not([disabled]),
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: default;
+	font-family: "EB Garamond";
+	font-size: 0.7em;
+	color: #333 !important;
+	background-color: #efefef;
+	padding: 1px 6px;
+	border: 2px solid #555;
+	text-decoration: none !important;
+	border-style: outset;
+}
+
+button:hover:not([disabled]),
+button:focus:not([disabled]),
+.btn:hover,
+.btn:focus {
+	background-color: #d6d6d6;
+}
+
+button:active:not([disabled]),
+.btn:active {
+	border-style: inset;
+}
+
+.btn-big {
+	width: 160px;
+	height: 40px;
+	margin: 10px 0;
+	font-size: 0.9em !important;
+}
+
+
+/* Text inputs */
+input[type="text"] {
+	background-color: #eee;
+	border-bottom: 0;
+}
+input[type="text"]:focus {
+	z-index: 1;
+}
+
+input[type="text"][readonly] {
+	background-color: #bbb9b9;
+}
+
+
+/* Elements */
+.tip {
+	font-size: 0.8em;
+}
+
+.bottom-link {
+	font-size: 0.8em;
+	display: inline-block;
+	margin-top: 15px;
+}
+
+#btn-export {
+	margin-top: 18px;
+}
