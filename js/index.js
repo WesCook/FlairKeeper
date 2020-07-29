@@ -1,3 +1,4 @@
+import './common.js';
 import {trophies} from '../config.js';
 import * as clipboard from './modules/clipboard.js';
 import * as flairCodes from './modules/flair-codes.js';
