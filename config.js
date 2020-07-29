@@ -1,3 +1,10 @@
+// Reddit Application information (https://www.reddit.com/prefs/apps/)
+export const redditApp = {
+	clientId: "ZnTxJCixTVhzMg",
+	userAgent: "SoulsFlairBot"
+}
+
+
 // Trophy list
 // ID: the ID for the element
 // Name: the label under the icon

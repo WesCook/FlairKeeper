@@ -1,22 +1,30 @@
 # Souls Flair Bot
 
-A bot and web app for assigning trophy flairs on the Souls subreddits.
+**This document is a work-in-progress.**
 
-Generates a unique string based on the combination of inputs.  Supports importing and exporting of specific user flairs, or manual copying methods.
+A web app for assigning trophy flairs.  Created for the Souls network of subreddits.
 
-Designed to be as configurable as possible.  Could work with other flair programs if designed around a string combination system.
+Generates a unique string based on the selected trophies.  Can be used in automatic or manual modes.  Strings can be copied manually, or automatically exported to subreddits of your choosing.
 
-### Run your own instance
+Connects via OAuth2 to your reddit account if you choose to connect it for additional functionality.
 
-The web app doesn't generally require a web server (it's all client-side).  However, browsers place limitations on the `file://` protocol which prevents this app from running locally.  As such you'll need to run a basic web server.
+Designed with configurability in mind.  Trophies can be be added or adjusted in the `config.js` file.
 
-If hosting online, do not publish the app URL or config file as these contain your secret keys.  They are for personal use only, or that of a trusted mod team.
+### To use this instance
+
+This instance is intended for moderators of the Souls network of subreddits.  It requires a moderator account with flair permission to work.  You can connect using the following steps:
+
+1.
+
+
+### To run your own instance
+
+For other subreddit networks, it's easy to run your own instance of the web app and reddit app.
+
+As all the authentication occurs using OAuth, there's no risk in publishing the URL to the internet.
+
+This web app doesn't generally require a web server (it's all client-side).  However, browsers place limitations on the `file://` protocol which prevents this app from running locally.  As such you'll need to run a basic web server.
 
 To get started:
 
-1. Copy `config.sample.js` in the root to `config.js`.
-2. (Optional) Create an account for your flair bot.  The account must be a moderator with flair permission on any subreddits it accesses (required for importing/exporting).
-3. [Create an app](https://www.reddit.com/prefs/apps/) of type `web app` and redirect URL `https://not-an-aardvark.github.io/reddit-oauth-helper/`.  The redirect URL can be adjusted afterwards.
-4. Use [Reddit OAuth Helper](https://not-an-aardvark.github.io/reddit-oauth-helper/) to assist in generating tokens.  Enter your Client ID and secret, and check Permanent.  Check `modflair` and `mysubreddits` under scope.
-5. Click Generate Tokens.  Confirm the app is connected, and record the refresh token near the bottom of the page.
-6. Copy client ID, secret, and refresh token into config.js.
+1.
