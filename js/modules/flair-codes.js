@@ -17,7 +17,7 @@ export function generateNew() {
 
 	trophies.forEach(trophy => {
 		if (document.getElementById(trophy.id).dataset.unlocked === "1") {
-			code += trophy.newCode;
+			code += ":" + trophy.newCode + ":";
 		}
 	});
 
