@@ -28,5 +28,5 @@ This web app doesn't generally require a web server (it's all client-side).  How
 To get started:
 
 1. Fork or download this repo.  Upload the files to a web server.
-2. [Create a reddit app](https://www.reddit.com/prefs/apps/) of type `web app`.  Make note of the ID and secret.  Set the Redirect URI to the web app's URI.  eg. `https://example.com/SoulsFlairBot/`.
+2. [Create a reddit app](https://www.reddit.com/prefs/apps/) of type `installed app`.  Make note of the ID and secret.  Set the Redirect URI to the settings page.  eg. `https://example.com/SoulsFlairBot/settings.html`.
 3. Edit `config.js` to enter your user agent and app ID.  Trophies can also be adjusted here.

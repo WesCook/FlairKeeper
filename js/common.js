@@ -9,10 +9,12 @@ if (true) {
 	document.body.classList.add("connected");
 }
 
+let loc = window.location;
+let url = loc.origin + loc.pathname.substring(0, loc.pathname.lastIndexOf('/')) + "/settings.html";
 
 const reddit = snoowrap.fromAuthCode({
-	code: new URL(window.location.href).searchParams.get('code'),
+	code: new URL(loc.href).searchParams.get('code'),
 	userAgent: redditApp.userAgent,
 	clientId: redditApp.clientId,
-	redirectUri: window.location.origin + window.location.pathname + "settings.html"
+	redirectUri: url
 });
