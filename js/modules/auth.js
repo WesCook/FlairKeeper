@@ -1,26 +1,56 @@
 import {redditApp} from '../../config.js';
 
-function request() {
-	return snoowrap.fromAuthCode({
-		code: new URL(window.location.href).searchParams.get('code'),
-		userAgent: redditApp.userAgent,
-		clientId: redditApp.clientId,
-		redirectUri: getRedirectURI()
-	});
+// State is returned after app is authorized
+// Check to ensure request is valid
+function generateRandomState() {
+	return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 }
 
+// Generate clean link to /settings.html
 function getRedirectURI() {
 	let loc = window.location;
 	let url = loc.origin + loc.pathname.substring(0, loc.pathname.lastIndexOf('/')) + "/settings.html";
 	return url;
 }
 
-function generateRandomState() {
-	return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-}
-
+// Initial OAuth connection URI
 function getAuthorizeURI() {
-	return `https://www.reddit.com/api/v1/authorize?client_id=${redditApp.clientId}&response_type=code&state=${generateRandomState()}&redirect_uri=${getRedirectURI()}&duration=permanent&scope=modflair%20mysubreddits`;
+	return snoowrap.getAuthUrl({
+		clientId: redditApp.clientId,
+		scope: ["modflair", "mysubreddits"],
+		redirectUri: getRedirectURI(),
+		permanent: true,
+		state: localStorage.getItem("state")
+	});
 }
 
-export {request, getRedirectURI, getAuthorizeURI};
+async function exchangeAuthCodeForRefreshToken(code) {
+	let redditPromise = await snoowrap.fromAuthCode({
+		code: code,
+		userAgent: redditApp.userAgent,
+		clientId: redditApp.clientId,
+		redirectUri: getRedirectURI()
+	})
+	return redditPromise.refreshToken;
+}
+
+function buttonConnect() {
+	let state = generateRandomState();
+	localStorage.setItem("state", state);
+	window.location.href = getAuthorizeURI();
+}
+
+async function getReddit() {
+	return await new snoowrap({
+		refreshToken: getRefreshToken(),
+		userAgent: redditApp.userAgent,
+		clientId: redditApp.clientId,
+		clientSecret: ""
+	});
+}
+
+function getRefreshToken() {
+	return localStorage.getItem("refreshToken");
+}
+
+export {getReddit, getAuthorizeURI, exchangeAuthCodeForRefreshToken, getRefreshToken, buttonConnect};

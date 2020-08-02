@@ -1,17 +1,19 @@
 import * as auth from './modules/auth.js';
-import {redditApp} from '../config.js';
 
-// Check cookie for connected OAuth account, set UI accordingly
-// TODO: All of this, obviously
-if (false) {
+const refreshToken = auth.getRefreshToken();
+
+if (refreshToken) {
 	document.body.classList.add("connected");
+
+	let reddit = auth.getReddit().then(r => {
+		r.getModeratedSubreddits().then(console.log);
+	});
+} else {
+	wireConnect();
 }
 
-
-const reddit = auth.request().then(r => {
-	r.getModeratedSubreddits().then(console.log);
-})
-
-
-let elemConnect = document.getElementById("btn-connect");
-elemConnect.href = auth.getAuthorizeURI();
+function wireConnect() {
+	let btnConnect = document.getElementById("btn-connect");
+	btnConnect.disabled = false;
+	btnConnect.addEventListener("click", auth.buttonConnect);
+}

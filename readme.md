@@ -19,14 +19,12 @@ This instance is intended for moderators of the Souls network of subreddits.  It
 
 ### To run your own instance
 
-For other subreddit networks, it's easy to run your own instance of the web app and reddit app.
-
-As all the authentication occurs using OAuth, there's no risk in publishing the URL to the internet.
+For other subreddit networks, it's easy to run your own instance of the web app.  As all the authentication occurs using client-side OAuth, there's no risk in publishing the URL to the internet.
 
 This web app doesn't generally require a web server (it's all client-side).  However, browsers place limitations on the `file://` protocol which prevents this app from running locally.  As such you'll need to run a basic web server.
 
 To get started:
 
 1. Fork or download this repo.  Upload the files to a web server.
-2. [Create a reddit app](https://www.reddit.com/prefs/apps/) of type `installed app`.  Make note of the ID and secret.  Set the Redirect URI to the settings page.  eg. `https://example.com/SoulsFlairBot/settings.html`.
+2. [Create a reddit app](https://www.reddit.com/prefs/apps/) of type `installed app`.  Make note of the ID.  Set the Redirect URI to the settings page.  eg. `https://example.com/SoulsFlairBot/settings.html`.
 3. Edit `config.js` to enter your user agent and app ID.  Trophies can also be adjusted here.
