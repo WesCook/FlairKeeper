@@ -8,7 +8,6 @@
 	<link rel="stylesheet" href="css/utility.css">
 	<link rel="stylesheet" href="css/layout.css">
 	<link rel="stylesheet" href="css/common.css">
-	<link rel="stylesheet" href="css/connect-toggle.css">
 	<link rel="stylesheet" href="css/fonts.css">
 	<link rel="stylesheet" href="css/animation.css">
 </head>
@@ -16,23 +15,27 @@
 
 	<h1>Souls Flair Bot</h1>
 
-	<section class="section-import-list">
-		<p class="tip">Please choose the subreddit to import flairs from.</p>
+	<section class="section-import-list connected-only">
+		<p>Please choose the subreddit to import flairs from.</p>
 		<select id="subreddit-import-list"></select>
 	</section>
 
-	<section class="section-export-list">
-		<p class="tip">Please choose the subreddits to export flairs to.</p>
+	<section class="section-export-list connected-only">
+		<p>Please choose the subreddits to export flairs to.</p>
 		<ul id="subreddit-export-list"></ul>
 	</section>
 
-	<section class="section-disconnect">
+	<button class="btn-big connected-only">Save</button>
+
+	<hr class="connected-only">
+
+	<section class="section-disconnect connected-only">
 		<p>Would you like to disconnect your reddit account?</p>
 		<p><small>This will delete all local data, and remove the <a href="https://www.reddit.com/prefs/apps/" target="_blank" rel="noopener">app from reddit</a>.</small></p>
 		<button class="btn-big" id="btn-disconnect" disabled>Disconnect</button>
 	</section>
 
-	<section class="section-connect">
+	<section class="section-connect disconnected-only">
 		<p>Connect your reddit account to automatically import and export trophy flair data.</p>
 		<p><small>Consider using an account with flair-only permission if sharing with multiple subreddits.</small></p>
 		<button class="btn-big" id="btn-connect" disabled>Connect</button>

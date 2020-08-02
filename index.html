@@ -8,7 +8,6 @@
 	<link rel="stylesheet" href="css/utility.css">
 	<link rel="stylesheet" href="css/layout.css">
 	<link rel="stylesheet" href="css/common.css">
-	<link rel="stylesheet" href="css/connect-toggle.css">
 	<link rel="stylesheet" href="css/fonts.css">
 	<link rel="stylesheet" href="css/animation.css">
 	<link rel="stylesheet" href="css/trophies.css">
@@ -17,7 +16,7 @@
 
 	<h1>Souls Flair Bot</h1>
 
-	<section class="section-username">
+	<section class="section-username connected-only">
 		<div class="input-grid">
 			<label for="username">Username</label>
 			<input type="text" id="username" size="20">
@@ -41,16 +40,16 @@
 			<input type="text" id="output-new" size="20" readonly><button id="output-new-copy" disabled>Copy</button>
 		</div>
 
-		<button class="btn-big" id="btn-export" size="30" disabled>Export</button>
+		<button class="btn-big connected-only" id="btn-export" size="30" disabled>Export</button>
 	</section>
 
-	<section class="section-connect">
+	<section class="section-connect disconnected-only">
 		<p>Connect your reddit account to automatically import and export trophy flair data.</p>
 		<p><small>Consider using an account with flair-only permission if sharing with multiple subreddits.</small></p>
 		<button class="btn-big" id="btn-connect" disabled>Connect</button>
 	</section>
 
-	<a class="settings bottom-link" href="settings.html">Settings</a>
+	<a class="settings bottom-link connected-only" href="settings.html">Settings</a>
 
 	<script type="module" src="js/libraries/snoowrap-v1.20.1.min.js"></script>
 	<script type="module" src="js/index.js"></script>

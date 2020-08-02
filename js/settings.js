@@ -62,6 +62,7 @@ async function checkNewAuthorization() {
 }
 
 function wireDisconnect() {
+	// TODO: Add confirmation prompt
 	let btnDisconnect = document.getElementById("btn-disconnect");
 	btnDisconnect.disabled = false;
 	btnDisconnect.addEventListener("click", buttonDisconnect);

@@ -83,6 +83,10 @@ input[type="text"][readonly] {
 
 
 /* Elements */
+hr {
+	margin-top: 20px;
+}
+
 .tip {
 	font-size: 0.8em;
 }
