@@ -41,6 +41,7 @@ function buttonConnect() {
 }
 
 async function getReddit() {
+	// TODO: Cache this result
 	return await new snoowrap({
 		refreshToken: getRefreshToken(),
 		userAgent: redditApp.userAgent,

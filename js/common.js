@@ -1,13 +1,9 @@
 import * as auth from './modules/auth.js';
 
 const refreshToken = auth.getRefreshToken();
-
 if (refreshToken) {
 	document.body.classList.add("connected");
-
-	let reddit = auth.getReddit().then(r => {
-		r.getModeratedSubreddits().then(console.log);
-	});
+	// TODO: Verify auth token is valid for user
 } else {
 	wireConnect();
 }

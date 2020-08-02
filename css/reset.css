@@ -12,3 +12,8 @@ html {
 *, *:before, *:after {
 	box-sizing: inherit;
 }
+
+/* List styling */
+ul {
+	list-style: none;
+}
