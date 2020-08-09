@@ -8,6 +8,7 @@ export function generateOld() {
 			code += trophy.oldCode;
 		}
 	});
+	code += "T";
 
 	return code;
 }
