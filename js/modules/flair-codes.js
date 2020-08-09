@@ -8,7 +8,10 @@ export function generateOld() {
 			code += trophy.oldCode;
 		}
 	});
-	code += "T";
+
+	if (code) { // Append trailing T if any selections were entered
+		code += "T";
+	}
 
 	return code;
 }
