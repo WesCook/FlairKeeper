@@ -9,10 +9,17 @@ const refreshToken = auth.getRefreshToken();
 if (refreshToken) {
 	let elemImportList = document.getElementById("subreddit-import-list");
 	let elemExportList = document.getElementById("subreddit-export-list");
+	let elemSave = document.getElementById("btn-save");
 
-	let reddit = auth.getReddit()
+	auth.getReddit()
 		.then(r => r.getModeratedSubreddits())
 		.then(subList => {
+			// Re-enable elements
+			elemImportList.disabled = false;
+			elemImportList.innerHTML = "";
+			elemSave.disabled = false;
+
+			// Generate contents
 			subList.forEach(sub => {
 				// Import List
 				let elemOption = document.createElement("OPTION");
@@ -70,6 +77,10 @@ function wireDisconnect() {
 
 // Delete local data and revoke app
 function buttonDisconnect() {
+	if (!confirm("Are you sure you'd like to disconnect your account?")) {
+		return;
+	}
+
 	auth.getReddit()
 	.then(r => r.revokeRefreshToken())
 	.then(() => {

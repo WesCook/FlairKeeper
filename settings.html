@@ -17,7 +17,9 @@
 
 	<section class="section-import-list connected-only">
 		<p>Please choose the subreddit to import flairs from.</p>
-		<select id="subreddit-import-list"></select>
+		<select id="subreddit-import-list" disabled>
+			<option>Loading subreddits</option>
+		</select>
 	</section>
 
 	<section class="section-export-list connected-only">
@@ -25,7 +27,7 @@
 		<ul id="subreddit-export-list"></ul>
 	</section>
 
-	<button class="btn-big connected-only">Save</button>
+	<button class="btn-big connected-only" id="btn-save" disabled>Save</button>
 
 	<hr class="connected-only">
 
