@@ -1,5 +1,7 @@
 import {redditApp} from '../../config.js';
 
+let reddit = null;
+
 // State is returned after app is authorized
 // Check to ensure request is valid
 function generateRandomState() {
@@ -41,13 +43,21 @@ function buttonConnect() {
 }
 
 async function getReddit() {
-	// TODO: Cache this result
-	return await new snoowrap({
-		refreshToken: getRefreshToken(),
-		userAgent: redditApp.userAgent,
-		clientId: redditApp.clientId,
-		clientSecret: ""
-	});
+	let token = getRefreshToken();
+	if (!token) {
+		return Promise.reject("Refresh token not found");
+	}
+
+	// Only fetches reddit promise once (per-page load)
+	if (reddit === null) {
+		reddit = await new snoowrap({
+			refreshToken: token,
+			userAgent: redditApp.userAgent,
+			clientId: redditApp.clientId,
+			clientSecret: ""
+		});
+	}
+	return reddit;
 }
 
 function getRefreshToken() {
