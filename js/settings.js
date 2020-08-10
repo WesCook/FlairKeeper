@@ -1,14 +1,13 @@
 import './common.js';
 import * as auth from './modules/auth.js';
 
-
 checkNewAuthorization().finally(
 	populateFields
 );
 
 wireDisconnect();
 
-
+// Check if "code" query string exists to set up an OAuth connection
 async function checkNewAuthorization() {
 	let code = new URL(window.location.href).searchParams.get("code");
 
@@ -37,6 +36,7 @@ function wireDisconnect() {
 	btnDisconnect.addEventListener("click", buttonDisconnect);
 }
 
+// Fetch subreddit data and populate dropdowns/checkboxes
 function populateFields() {
 	if (!auth.getRefreshToken()) {
 		console.log("Cannot populate fields.  Refresh token not found");

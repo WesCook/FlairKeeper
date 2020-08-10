@@ -11,7 +11,6 @@ let elemCopyNew = document.getElementById("output-new-copy");
 createTrophyList();
 setupEventListeners();
 
-
 function createTrophyList() {
 	let elemTrophyList = document.getElementById("trophy-list");
 	elemTrophyList.innerHTML = "";
@@ -34,12 +33,10 @@ function createTrophyList() {
 	});
 }
 
-
 function toggleTrophy() {
 	this.dataset.unlocked ^= true;
 	updateFlairCodes();
 }
-
 
 function updateFlairCodes() {
 	let oldFlair = flairCodes.generateOld();
@@ -53,7 +50,6 @@ function updateFlairCodes() {
 	elemCopyOld.disabled = !oldFlair;
 	elemCopyNew.disabled = !newFlair;
 }
-
 
 function setupEventListeners() {
 	// Select whole code output on focus
