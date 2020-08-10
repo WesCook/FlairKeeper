@@ -1,11 +1,12 @@
 import './common.js';
 import * as auth from './modules/auth.js';
 
-checkNewAuthorization().finally(
-	populateFields
-);
+(async function main() {
+	await checkNewAuthorization(); // Requires an IIFE until top-level await is approved (https://github.com/tc39/proposal-top-level-await)
+	populateFields();
+})();
 
-wireDisconnect();
+wireButtons();
 
 // Check if "code" query string exists to set up an OAuth connection
 async function checkNewAuthorization() {
@@ -28,12 +29,6 @@ async function checkNewAuthorization() {
 	let refreshToken = await auth.exchangeAuthCodeForRefreshToken(code);
 	localStorage.setItem("refreshToken", refreshToken);
 	localStorage.removeItem("state");
-}
-
-function wireDisconnect() {
-	let btnDisconnect = document.getElementById("btn-disconnect");
-	btnDisconnect.disabled = false;
-	btnDisconnect.addEventListener("click", buttonDisconnect);
 }
 
 // Fetch subreddit data and populate dropdowns/checkboxes
@@ -81,6 +76,14 @@ function populateFields() {
 		});
 }
 
+function wireButtons() {
+	let btnDisconnect = document.getElementById("btn-disconnect");
+	btnDisconnect.disabled = false;
+	btnDisconnect.addEventListener("click", buttonDisconnect);
+
+	document.getElementById("btn-save").addEventListener("click", buttonSave);
+}
+
 // Delete local data and revoke app
 function buttonDisconnect() {
 	if (!confirm("Are you sure you'd like to disconnect your account?")) {
@@ -93,4 +96,8 @@ function buttonDisconnect() {
 		localStorage.removeItem("refreshToken");
 		window.location.href = "./"
 	});
+}
+
+function buttonSave() {
+	console.log("Save!");
 }
