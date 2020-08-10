@@ -29,6 +29,7 @@ async function checkNewAuthorization() {
 	let refreshToken = await auth.exchangeAuthCodeForRefreshToken(code);
 	localStorage.setItem("refreshToken", refreshToken);
 	localStorage.removeItem("state");
+	history.replaceState(null, '', 'settings.html'); // Clean variables from URL
 }
 
 // Fetch subreddit data and populate dropdowns/checkboxes
