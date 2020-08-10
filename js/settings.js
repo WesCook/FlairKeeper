@@ -1,12 +1,48 @@
 import './common.js';
 import * as auth from './modules/auth.js';
 
-checkNewAuthorization();
+
+checkNewAuthorization().finally(
+	populateFields
+);
+
 wireDisconnect();
 
 
-const refreshToken = auth.getRefreshToken();
-if (refreshToken) {
+async function checkNewAuthorization() {
+	let code = new URL(window.location.href).searchParams.get("code");
+
+	// No code, so not trying to connect
+	if (!code) {
+		return;
+	}
+
+	let stateReceived = new URL(window.location.href).searchParams.get("state");
+	let stateSent = localStorage.getItem("state");
+
+	if (stateReceived !== stateSent) {
+		console.log("State does not match");
+		return;
+	}
+
+	let refreshToken = await auth.exchangeAuthCodeForRefreshToken(code);
+	localStorage.setItem("refreshToken", refreshToken);
+	localStorage.removeItem("state");
+	document.body.classList.add("connected");
+}
+
+function wireDisconnect() {
+	let btnDisconnect = document.getElementById("btn-disconnect");
+	btnDisconnect.disabled = false;
+	btnDisconnect.addEventListener("click", buttonDisconnect);
+}
+
+function populateFields() {
+	if (!auth.getRefreshToken()) {
+		console.log("Cannot populate fields.  Refresh token not found");
+		return;
+	}
+
 	let elemImportList = document.getElementById("subreddit-import-list");
 	let elemExportList = document.getElementById("subreddit-export-list");
 	let elemSave = document.getElementById("btn-save");
@@ -45,36 +81,6 @@ if (refreshToken) {
 		});
 }
 
-
-async function checkNewAuthorization() {
-	let code = new URL(window.location.href).searchParams.get("code");
-	let stateReceived = new URL(window.location.href).searchParams.get("state");
-	let stateSent = localStorage.getItem("state");
-
-	// No code, so not trying to connect
-	if (!code) {
-		return;
-	}
-
-	if (stateReceived !== stateSent) {
-		console.log("State does not match");
-		return;
-	}
-
-	let refreshToken = await auth.exchangeAuthCodeForRefreshToken(code);
-	localStorage.setItem("refreshToken", refreshToken);
-	localStorage.removeItem("state");
-	document.body.classList.add("connected");
-	// TODO: Update UI to pull in subreddits
-}
-
-function wireDisconnect() {
-	// TODO: Add confirmation prompt
-	let btnDisconnect = document.getElementById("btn-disconnect");
-	btnDisconnect.disabled = false;
-	btnDisconnect.addEventListener("click", buttonDisconnect);
-}
-
 // Delete local data and revoke app
 function buttonDisconnect() {
 	if (!confirm("Are you sure you'd like to disconnect your account?")) {
@@ -83,7 +89,7 @@ function buttonDisconnect() {
 
 	auth.getReddit()
 	.then(r => r.revokeRefreshToken())
-	.then(() => {
+	.finally(() => {
 		localStorage.removeItem("refreshToken");
 		window.location.href = "./"
 	});

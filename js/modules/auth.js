@@ -45,7 +45,7 @@ function buttonConnect() {
 async function getReddit() {
 	let token = getRefreshToken();
 	if (!token) {
-		return Promise.reject("Refresh token not found");
+		return Promise.reject("Cannot return reddit promise.  Refresh token not found");
 	}
 
 	// Only fetches reddit promise once (per-page load)
