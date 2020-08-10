@@ -25,10 +25,10 @@ async function checkNewAuthorization() {
 		return;
 	}
 
+	document.documentElement.classList.add("connected");
 	let refreshToken = await auth.exchangeAuthCodeForRefreshToken(code);
 	localStorage.setItem("refreshToken", refreshToken);
 	localStorage.removeItem("state");
-	document.body.classList.add("connected");
 }
 
 function wireDisconnect() {
