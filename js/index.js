@@ -3,6 +3,9 @@ import {trophies} from '../config.js';
 import * as clipboard from './modules/clipboard.js';
 import * as flairCodes from './modules/flair-codes.js';
 
+if (localStorage.getItem("refreshToken")) {
+	document.body.classList.add("connected")
+}
 
 let elemOutputOld = document.getElementById("output-old");
 let elemOutputNew = document.getElementById("output-new");

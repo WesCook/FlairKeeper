@@ -11,6 +11,11 @@
 	<link rel="stylesheet" href="css/fonts.css">
 	<link rel="stylesheet" href="css/animation.css">
 	<link rel="stylesheet" href="css/trophies.css">
+	<script>
+		if (localStorage.getItem("refreshToken")) {
+			document.documentElement.classList.add("connected");
+		}
+	</script>
 </head>
 <body>
 
@@ -27,7 +32,14 @@
 	</section>
 
 	<section class="section-trophies">
-		<div id="trophy-list"></div>
+		<div id="trophy-list">
+			<figure class="trophy" data-unlocked="0"><figcaption>Loading</figcaption></figure>
+			<figure class="trophy" data-unlocked="0"><figcaption>Loading</figcaption></figure>
+			<figure class="trophy" data-unlocked="0"><figcaption>Loading</figcaption></figure>
+			<figure class="trophy" data-unlocked="0"><figcaption>Loading</figcaption></figure>
+			<figure class="trophy" data-unlocked="0"><figcaption>Loading</figcaption></figure>
+			<figure class="trophy" data-unlocked="0"><figcaption>Loading</figcaption></figure>
+		</div>
 		<p class="tip">Please select the trophies to assign to the user.</p>
 	</section>
 
@@ -49,7 +61,7 @@
 		<button class="btn-big" id="btn-connect" disabled>Connect</button>
 	</section>
 
-	<a class="settings bottom-link connected-only" href="settings.html">Settings</a>
+	<a class="bottom-link settings connected-only" href="settings.html">Settings</a>
 
 	<script type="module" src="js/libraries/snoowrap-v1.20.1.min.js"></script>
 	<script type="module" src="js/index.js"></script>

@@ -1,10 +1,6 @@
 import * as auth from './modules/auth.js';
 
-const refreshToken = auth.getRefreshToken();
-if (refreshToken) {
-	document.body.classList.add("connected");
-	// TODO: Verify auth token is valid for user
-} else {
+if (!auth.getRefreshToken()) {
 	wireConnect();
 }
 

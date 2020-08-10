@@ -12,9 +12,9 @@
 }
 
 /* Hide elements based on .connected in <body> */
-body.connected .disconnected-only {
+html.connected .disconnected-only {
 	display: none;
 }
-body:not(.connected) .connected-only {
+html:not(.connected) .connected-only {
 	display: none;
 }
