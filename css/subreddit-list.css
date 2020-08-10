@@ -1,0 +1,15 @@
+#subreddit-export-list {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	text-align: left;
+	word-break: break-all;
+}
+@media only screen and (max-width: 435px) {
+	#subreddit-export-list {
+		grid-template-columns: 1fr;
+	}
+}
+
+#subreddit-export-list input {
+	margin-right: 7px;
+}
