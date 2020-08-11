@@ -1,6 +1,9 @@
 import './common.js';
 import * as auth from './modules/auth.js';
 
+let elemImportList = document.getElementById("subreddit-import-list");
+let elemExportList = document.getElementById("subreddit-export-list");
+
 (async function main() {
 	await checkNewAuthorization(); // Requires an IIFE until top-level await is approved (https://github.com/tc39/proposal-top-level-await)
 	populateFields();
@@ -39,23 +42,28 @@ function populateFields() {
 		return;
 	}
 
-	let elemImportList = document.getElementById("subreddit-import-list");
-	let elemExportList = document.getElementById("subreddit-export-list");
-	let elemSave = document.getElementById("btn-save");
-
 	auth.getReddit()
 		.then(r => r.getModeratedSubreddits())
 		.then(subList => {
 			// Re-enable elements
+			let elemSave = document.getElementById("btn-save");
 			elemImportList.disabled = false;
 			elemImportList.innerHTML = "";
 			elemSave.disabled = false;
+
+			// Load saved data
+			let importSub = localStorage.getItem("importSub") || "";
+			let exportSubs = localStorage.getItem("exportSubs") || [];
 
 			// Generate contents
 			subList.forEach(sub => {
 				// Import List
 				let elemOption = document.createElement("OPTION");
 				elemOption.textContent = "/" + sub.display_name_prefixed;
+
+				if (elemOption.textContent === importSub) {
+					elemOption.selected = true;
+				}
 				elemImportList.appendChild(elemOption);
 
 				// Export List
@@ -63,12 +71,18 @@ function populateFields() {
 
 				let elemInput = document.createElement("INPUT");
 				elemInput.type = "checkbox";
-				elemInput.id = "sub_" + sub.display_name;
-				elemInput.name = sub.display_name;
+				elemInput.id = "sub-" + sub.display_name;
+				elemInput.classList.add("subreddit-export-item");
+				elemInput.name = "/" + sub.display_name_prefixed;
+
+				if (exportSubs.includes(elemInput.name)) {
+					elemInput.checked = true;
+				}
+
 				elemListItem.appendChild(elemInput);
 
 				let elemLabel = document.createElement("LABEL");
-				elemLabel.htmlFor = "sub_" + sub.display_name;
+				elemLabel.htmlFor = "sub-" + sub.display_name;
 				elemLabel.textContent = "/" + sub.display_name_prefixed;
 				elemListItem.appendChild(elemLabel);
 
@@ -100,5 +114,15 @@ function buttonDisconnect() {
 }
 
 function buttonSave() {
-	console.log("Save!");
+	let exportNodeList = document.querySelectorAll(".subreddit-export-item")
+	localStorage.setItem("importSub", elemImportList.value);
+
+	let exportList = [];
+	exportNodeList.forEach(item => {
+		if (item.checked) {
+			exportList.push(item.name);
+		}
+	});
+
+	localStorage.setItem("exportSubs", JSON.stringify(exportList));
 }
