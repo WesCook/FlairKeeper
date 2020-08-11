@@ -109,6 +109,8 @@ function buttonDisconnect() {
 	.then(r => r.revokeRefreshToken())
 	.finally(() => {
 		localStorage.removeItem("refreshToken");
+		localStorage.removeItem("importSub");
+		localStorage.removeItem("exportSubs");
 		window.location.href = "./"
 	});
 }
