@@ -55,9 +55,16 @@ function populateFields() {
 			let importSub = localStorage.getItem("importSub") || "";
 			let exportSubs = localStorage.getItem("exportSubs") || [];
 
-			// Generate contents
+			// Generate fields and populate with saved data
 			subList.forEach(sub => {
-				// Import List
+				let hasFlairPermission = (sub.mod_permissions.includes("all") || sub.mod_permissions.includes("flair"));
+
+				////////////////
+				// Import Sub //
+				////////////////
+
+				// TODO: Test if flair perms are required to read flair values
+
 				let elemOption = document.createElement("OPTION");
 				elemOption.textContent = "/" + sub.display_name_prefixed;
 
@@ -66,7 +73,10 @@ function populateFields() {
 				}
 				elemImportList.appendChild(elemOption);
 
-				// Export List
+				/////////////////
+				// Export Subs //
+				/////////////////
+
 				let elemListItem = document.createElement("LI");
 
 				let elemInput = document.createElement("INPUT");
@@ -79,11 +89,22 @@ function populateFields() {
 					elemInput.checked = true;
 				}
 
+				if (!hasFlairPermission) {
+					elemInput.disabled = true;
+					elemInput.checked = false;
+				}
+
 				elemListItem.appendChild(elemInput);
 
 				let elemLabel = document.createElement("LABEL");
 				elemLabel.htmlFor = "sub-" + sub.display_name;
 				elemLabel.textContent = "/" + sub.display_name_prefixed;
+
+				if (!hasFlairPermission) {
+					elemLabel.title = "Missing flair permission";
+					elemLabel.classList.add("faded");
+				}
+
 				elemListItem.appendChild(elemLabel);
 
 				elemExportList.appendChild(elemListItem);
