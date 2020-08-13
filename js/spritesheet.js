@@ -4,19 +4,7 @@ generatePermutations().then(permutations => {
 	listPermutations(permutations);
 	createImages().then(() => {
 		let elemCanvas = drawCanvas(permutations);
-		elemCanvas.toBlob(blob => {
-			let url = URL.createObjectURL(blob);
-
-			let elemImg = document.createElement('img');
-			elemImg.src = url;
-			elemImg.classList.add("spritesheet-img");
-			document.getElementById("section-spritesheet").appendChild(elemImg);
-
-			let elemDownloadLink = document.getElementById("spritesheet-download");
-			elemDownloadLink.setAttribute("download", "spritesheet.png");
-			elemDownloadLink.setAttribute("href", url);
-		}, "image/png", 1);
-	
+		generatePreview(elemCanvas);
 	});
 });
 
@@ -80,6 +68,21 @@ function drawCanvas(permutations) {
 	});
 
 	return elemCanvas;
+}
+
+function generatePreview(elemCanvas) {
+	elemCanvas.toBlob(blob => {
+		let url = URL.createObjectURL(blob);
+
+		let elemImg = document.createElement('img');
+		elemImg.src = url;
+		elemImg.classList.add("spritesheet-img");
+		document.getElementById("section-spritesheet").appendChild(elemImg);
+
+		let elemDownloadLink = document.getElementById("spritesheet-download");
+		elemDownloadLink.setAttribute("download", "spritesheet.png");
+		elemDownloadLink.setAttribute("href", url);
+	}, "image/png", 1);
 }
 
 async function generatePermutations() {
