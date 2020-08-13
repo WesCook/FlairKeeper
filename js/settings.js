@@ -77,9 +77,9 @@ function populateFields() {
 				// Export Subs //
 				/////////////////
 
-				let elemListItem = document.createElement("LI");
+				let elemListItem = document.createElement("li");
 
-				let elemInput = document.createElement("INPUT");
+				let elemInput = document.createElement("input");
 				elemInput.type = "checkbox";
 				elemInput.id = "sub-" + sub.display_name;
 				elemInput.classList.add("subreddit-export-item");
@@ -96,7 +96,7 @@ function populateFields() {
 
 				elemListItem.appendChild(elemInput);
 
-				let elemLabel = document.createElement("LABEL");
+				let elemLabel = document.createElement("label");
 				elemLabel.htmlFor = "sub-" + sub.display_name;
 				elemLabel.textContent = "/" + sub.display_name_prefixed;
 

@@ -21,6 +21,12 @@
 
 	<h1>Souls Flair Bot</h1>
 
+	<nav>
+		<a class="connected-only" href="settings.html">Settings</a>
+		<span class="connected-only">|</span>
+		<a href="spritesheet.html">Spritesheet</a>
+	</nav>
+
 	<section class="section-username connected-only">
 		<div class="input-grid">
 			<label for="username">Username</label>
@@ -45,10 +51,10 @@
 
 	<section class="section-export">
 		<div class="input-grid">
-			<label for="output-old">Old Reddit</label>
+			<label for="output-old" title="Used on old Reddit">CSS Text</label>
 			<input type="text" id="output-old" size="20" readonly><button id="output-old-copy" disabled>Copy</button>
 
-			<label for="output-new">New Reddit</label>
+			<label for="output-new" title="Used on new Reddit">CSS Class</label>
 			<input type="text" id="output-new" size="20" readonly><button id="output-new-copy" disabled>Copy</button>
 		</div>
 
@@ -60,8 +66,6 @@
 		<p><small>Consider using an account with flair-only permission if sharing with multiple subreddits.</small></p>
 		<button class="btn-big" id="btn-connect" disabled>Connect</button>
 	</section>
-
-	<a class="bottom-link settings connected-only" href="settings.html">Settings</a>
 
 	<script type="module" src="js/libraries/snoowrap-v1.20.1.min.js"></script>
 	<script type="module" src="js/index.js"></script>

@@ -91,12 +91,25 @@ hr {
 	font-size: 0.8em;
 }
 
-.bottom-link {
+nav {
 	font-size: 0.8em;
 	display: inline-block;
 	margin-top: 15px;
+	color: #ddd;
+}
+nav a{
+	margin: 3px;
 }
 
 #btn-export {
 	margin-top: 18px;
+}
+
+#output-permutations, #output-css {
+	background-color: #555;
+	color: white;
+	min-width: 100%;
+	max-width: 100%;
+	min-height: 140px;
+	overflow-y: scroll;
 }

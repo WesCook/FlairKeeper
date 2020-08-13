@@ -15,9 +15,9 @@ export const trophies = [
 	{id: "demonssouls", name: "Demon's Souls", icon: "img/trophies/platinum.png", oldCode: "De", newCode: "DeS"},
 	{id: "darksouls1", name: "Dark Souls", icon: "img/trophies/bronze.png", oldCode: "Da", newCode: "DaS"},
 	{id: "darksouls2", name: "Dark Souls II", icon: "img/trophies/gold.png", oldCode: "Da2", newCode: "DaS2"},
-	{id: "bloodborne", name: "Bloodborne", icon: "img/trophies/green.png", oldCode: "Bb", newCode: "Bb"},
-	{id: "darksouls3", name: "Dark Souls III", icon: "img/trophies/purple.png", oldCode: "Da3", newCode: "DaS3"},
-	{id: "sekiro", name: "Sekiro", icon: "img/trophies/magenta.png", oldCode: "Sek", newCode: "Sek"}
-	//{id: "eldenring", name: "Elden Ring", icon: "img/trophies/charcoal.png", oldCode: "Eld", newCode: "Eld"},
+	{id: "bloodborne", name: "Bloodborne", icon: "img/trophies/green.png", oldCode: "Bb", newCode: "Bb"}
+	//{id: "darksouls3", name: "Dark Souls III", icon: "img/trophies/purple.png", oldCode: "Da3", newCode: "DaS3"},
+	//{id: "sekiro", name: "Sekiro", icon: "img/trophies/magenta.png", oldCode: "Sek", newCode: "Sek"},
+	//{id: "eldenring", name: "Elden Ring", icon: "img/trophies/charcoal.png", oldCode: "Eld", newCode: "Eld"}
 	//{id: "zz", name: "ZZ Placeholder", icon: "img/trophies/ash.png", oldCode: "Zz", newCode: "Zz"}
 ]
