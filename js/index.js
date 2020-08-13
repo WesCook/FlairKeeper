@@ -19,7 +19,7 @@ function createTrophyList() {
 		let img = document.createElement("img");
 		let figcaption = document.createElement("figcaption");
 
-		figure.classList = "trophy";
+		figure.classList.add("trophy");
 		figure.id = trophy.id;
 		figure.dataset.unlocked = 0;
 		img.src = trophy.icon;

@@ -4,8 +4,19 @@ generatePermutations().then(permutations => {
 	listPermutations(permutations);
 	createImages().then(() => {
 		let elemCanvas = drawCanvas(permutations);
-		//let url = elemCanvas.toDataURL("image/png");
-		//console.log(url);
+		elemCanvas.toBlob(blob => {
+			let url = URL.createObjectURL(blob);
+
+			let elemImg = document.createElement('img');
+			elemImg.src = url;
+			elemImg.classList.add("spritesheet-img");
+			document.getElementById("section-spritesheet").appendChild(elemImg);
+
+			let elemDownloadLink = document.getElementById("spritesheet-download");
+			elemDownloadLink.setAttribute("download", "spritesheet.png");
+			elemDownloadLink.setAttribute("href", url);
+		}, "image/png", 1);
+	
 	});
 });
 

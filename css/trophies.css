@@ -39,6 +39,12 @@
 }
 
 canvas#spritesheet {
-	margin-top: 13px;
+	position: absolute;
+	left: -1000px;
+}
+
+.spritesheet-img {
+	display: block;
+	margin: 13px auto 5px auto;
 	border: 1px solid grey;
 }
