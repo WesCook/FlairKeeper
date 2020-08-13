@@ -8,6 +8,44 @@ generatePermutations().then(permutations => {
 	});
 });
 
+async function generatePermutations() {
+	let promise = new Promise((resolve, reject) => {
+		const mainList = trophies.map(trophy => trophy.oldCode);
+		const altList = trophies.map(trophy => trophy.oldCode + "+");
+		let permutations = [];
+
+		function addSubsequences(index, subarr) {
+			if (index === mainList.length) {
+				if (subarr.length !== 0) {
+					permutations.push(subarr);
+				}
+			} else {
+				addSubsequences(index + 1, subarr); // Subsequence without including the element at current index
+				addSubsequences(index + 1, subarr.concat(mainList[index])); // Subsequence including the main element at current index
+				addSubsequences(index + 1, subarr.concat(altList[index])); // Subsequence including the alternate element at current index
+			}
+			return;
+		}
+		addSubsequences(0, []);
+
+		resolve(permutations);
+	});
+
+	return promise;
+}
+
+function listPermutations(permutations) {
+	let elemPermutations = document.getElementById("output-permutations");
+	let content = "";
+
+	permutations.forEach(permutation => {
+		permutation.forEach(single => content += single);
+		content += '\n';
+	});
+
+	elemPermutations.textContent = content;
+}
+
 async function createImages() {
 	let promise = new Promise((resolve, reject) => {
 		let trophyList = document.getElementById("spritesheet-trophy-list");
@@ -83,42 +121,4 @@ function generatePreview(elemCanvas) {
 		elemDownloadLink.setAttribute("download", "spritesheet.png");
 		elemDownloadLink.setAttribute("href", url);
 	}, "image/png", 1);
-}
-
-async function generatePermutations() {
-	let promise = new Promise((resolve, reject) => {
-		const mainList = trophies.map(trophy => trophy.oldCode);
-		const altList = trophies.map(trophy => trophy.oldCode + "+");
-		let permutations = [];
-
-		function addSubsequences(index, subarr) {
-			if (index === mainList.length) {
-				if (subarr.length !== 0) {
-					permutations.push(subarr);
-				}
-			} else {
-				addSubsequences(index + 1, subarr); // Subsequence without including the element at current index
-				addSubsequences(index + 1, subarr.concat(mainList[index])); // Subsequence including the main element at current index
-				addSubsequences(index + 1, subarr.concat(altList[index])); // Subsequence including the alternate element at current index
-			}
-			return;
-		}
-		addSubsequences(0, []);
-
-		resolve(permutations);
-	});
-
-	return promise;
-}
-
-function listPermutations(permutations) {
-	let elemPermutations = document.getElementById("output-permutations");
-	let content = "";
-
-	permutations.forEach(permutation => {
-		permutation.forEach(single => content += single);
-		content += '\n';
-	});
-
-	elemPermutations.textContent = content;
 }
