@@ -11,9 +11,16 @@ canvas#spritesheet,
 .spritesheet-img {
 	display: inline-block;
 	margin: 13px auto 5px auto;
-	border: 1px solid grey;
+	padding: 2px;
+	border: 1px solid var(--gold-trim);
+	border-radius: 4px;
+}
+canvas#spritesheet + .spritesheet-img {
+	margin-left: 10px;
 }
 
-#canvas-output {
+#spritesheet-download {
+	display: block;
 	margin-top: 30px;
+	margin-bottom: 5px;
 }

@@ -10,13 +10,21 @@
 	<link rel="stylesheet" href="css/common.css">
 	<link rel="stylesheet" href="css/fonts.css">
 	<link rel="stylesheet" href="css/spritesheet.css">
+	<script>
+		if (localStorage.getItem("refreshToken")) {
+			document.documentElement.classList.add("connected");
+		}
+	</script>
 </head>
 <body>
 
 	<h1>Souls Flair Bot</h1>
 
 	<nav>
-		<a href="./">Home</a>
+		<a href="./">Home</a> |
+		<a class="connected-only" href="settings.html">Settings</a>
+		<span class="connected-only">|</span>
+		<span class="current">Spritesheet</span>
 	</nav>
 
 	<section class="section-permutations">
@@ -33,10 +41,8 @@
 		<p>Spritesheet</p>
 		<p class="tip">Use <a href="https://tinypng.com/" target="_blank" rel="noopener">TinyPng</a> to optimize before publishing.</p>
 		<a id="spritesheet-download">Download</a>
-		<div id="canvas-output">
-			<div id="spritesheet-trophy-list"></div>
-			<canvas id="spritesheet"></canvas>
-		</div>
+		<div id="spritesheet-trophy-list"></div>
+		<canvas id="spritesheet"></canvas>
 	</section>
 
 	<script type="module" src="js/spritesheet.js"></script>

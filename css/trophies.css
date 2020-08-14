@@ -14,7 +14,8 @@
 }
 
 .trophy {
-	display: inline-block;
+	display: flex;
+	flex-direction: column;
 	margin: 10px;
 	padding: 5px;
 	background-color: #3e3e3e;
@@ -28,8 +29,13 @@
 }
 
 .trophy img {
+	align-self: center;
 	min-width: 64px;
 	min-height: 64px;
 	image-rendering: crisp-edges; /* Firefox */
 	image-rendering: pixelated; /* Chrome */
+}
+
+.trophy figcaption {
+	margin-top: auto;
 }

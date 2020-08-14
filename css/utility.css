@@ -1,3 +1,7 @@
+:root {
+	--gold-trim: #b0ae4c;
+}
+
 .disabled {
 	display: none;
 }

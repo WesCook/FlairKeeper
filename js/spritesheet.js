@@ -197,7 +197,7 @@ function generatePreview(elemCanvas) {
 		let elemImg = document.createElement('img');
 		elemImg.src = url;
 		elemImg.classList.add("spritesheet-img");
-		document.getElementById("canvas-output").appendChild(elemImg);
+		document.getElementById("section-spritesheet").appendChild(elemImg);
 
 		let elemDownloadLink = document.getElementById("spritesheet-download");
 		elemDownloadLink.setAttribute("download", "s.png");

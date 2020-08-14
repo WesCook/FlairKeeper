@@ -22,7 +22,10 @@
 	<h1>Souls Flair Bot</h1>
 
 	<nav>
-		<a href="./">Home</a>
+		<a href="./">Home</a> |
+		<span class="connected-only current">Settings</span>
+		<span class="connected-only">|</span>
+		<a href="spritesheet.html">Spritesheet</a>
 	</nav>
 
 	<section class="section-import-list connected-only">
@@ -43,13 +46,13 @@
 
 	<section class="section-disconnect connected-only">
 		<p>Would you like to disconnect your reddit account?</p>
-		<p><small>This will delete all local data, and remove the <a href="https://www.reddit.com/prefs/apps/" target="_blank" rel="noopener">app from reddit</a>.</small></p>
+		<p class="tip">This will delete all local data, and remove the <a href="https://www.reddit.com/prefs/apps/" target="_blank" rel="noopener">app from reddit.</a></p>
 		<button class="btn-big" id="btn-disconnect" disabled>Disconnect</button>
 	</section>
 
 	<section class="section-connect disconnected-only">
 		<p>Connect your reddit account to automatically import and export trophy flair data.</p>
-		<p><small>Consider using an account with flair-only permission if sharing with multiple subreddits.</small></p>
+		<p class="tip">Consider using an account with flair-only permission if sharing with multiple subreddits.</p>
 		<button class="btn-big" id="btn-connect" disabled>Connect</button>
 	</section>
 
