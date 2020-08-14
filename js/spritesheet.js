@@ -1,6 +1,11 @@
 import {trophies, variants as trophyVariants} from '../config.js';
 import {colorFromString} from './modules/color-from-string.js';
 
+const debug = typeof new URLSearchParams(window.location.search).get("debug") === 'string';
+if (debug) {
+	document.documentElement.classList.add("debug");
+}
+
 let variants = generateVariants();
 
 generatePermutations().then(permutations => {
@@ -167,7 +172,7 @@ function drawCanvas(permutations) {
 			variants.forEach(variant => {
 				if (single === variant.css_class) {
 					// Draw background square based on variant name for debugging purposes
-					if (typeof new URLSearchParams(window.location.search).get("debug") === 'string') {
+					if (debug) {
 						ctx.fillStyle = colorFromString(variant.variantName);
 						ctx.fillRect(x*16, y*16, 16, 16);
 					}
@@ -192,7 +197,7 @@ function generatePreview(elemCanvas) {
 		let elemImg = document.createElement('img');
 		elemImg.src = url;
 		elemImg.classList.add("spritesheet-img");
-		document.getElementById("section-spritesheet").appendChild(elemImg);
+		document.getElementById("canvas-output").appendChild(elemImg);
 
 		let elemDownloadLink = document.getElementById("spritesheet-download");
 		elemDownloadLink.setAttribute("download", "s.png");

@@ -1,0 +1,19 @@
+html:not(.debug) #spritesheet-trophy-list {
+	display: none;
+}
+
+html:not(.debug) canvas#spritesheet {
+	position: absolute;
+	left: -100000px;
+}
+
+canvas#spritesheet,
+.spritesheet-img {
+	display: inline-block;
+	margin: 13px auto 5px auto;
+	border: 1px solid grey;
+}
+
+#canvas-output {
+	margin-top: 30px;
+}

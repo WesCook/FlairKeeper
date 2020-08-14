@@ -33,18 +33,3 @@
 	image-rendering: crisp-edges; /* Firefox */
 	image-rendering: pixelated; /* Chrome */
 }
-
-#spritesheet-trophy-list {
-	display: none;
-}
-
-canvas#spritesheet {
-	position: absolute;
-	left: -100000px;
-}
-
-.spritesheet-img {
-	display: block;
-	margin: 13px auto 5px auto;
-	border: 1px solid grey;
-}
