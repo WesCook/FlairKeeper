@@ -1,27 +1,47 @@
-import {trophies, variants} from '../config.js';
+import {trophies, variants as trophyVariants} from '../config.js';
+
+let variants = generateVariants();
 
 generatePermutations().then(permutations => {
 	listPermutations(permutations);
 	generateCSS(permutations);
 	createImages().then(() => {
-		let elemCanvas = drawCanvas(permutations);
-		generatePreview(elemCanvas);
+	let elemCanvas = drawCanvas(permutations);
+	generatePreview(elemCanvas);
 	});
 });
 
+// Flat list of trophies with variants for easier looping
+function generateVariants() {
+	let variants = [];
+	trophies.forEach(trophy => {
+		trophyVariants.forEach(variant => {
+			if (!trophy.variants[variant]) {
+				return;
+			}
+
+			let entry = {};
+			entry.id = trophy.id;
+			entry.name = trophy.name;
+			entry.variantName = variant;
+			entry.css_text = trophy.variants[variant].css_text;
+			entry.css_class = trophy.variants[variant].css_class;
+			entry.icon = trophy.variants[variant].icon;
+			variants.push(entry);
+		});
+	});
+	return variants;
+}
+
 async function generatePermutations() {
 	let promise = new Promise((resolve, reject) => {
+		// Object with Variant names, each containing array of class names
 		let classListByVariant = {};
-		trophies.forEach(trophy => {
-			variants.forEach(variant => {
-				if (!trophy.variants[variant]) {
-					return;
-				}
-				if (typeof classListByVariant[variant] === 'undefined') {
-					classListByVariant[variant] = new Array();
-				}
-				classListByVariant[variant].push(trophy.variants[variant].css_text);
-			});
+		variants.forEach(variant => {
+			if (typeof classListByVariant[variant.variantName] === 'undefined') {
+				classListByVariant[variant.variantName] = new Array();
+			}
+			classListByVariant[variant.variantName].push(variant.css_text);
 		});
 
 		/*
@@ -35,16 +55,16 @@ async function generatePermutations() {
 		It grows exponentially (x^y-1), where x is the number of variants+1 and y is the number of entries.
 		*/
 		let permutations = [];
-		function addSubsequences(index, subarr) {
+		function addSubsequences(index, subPermArray) {
 			if (index === trophies.length) {
-				if (subarr.length !== 0) {
-					permutations.push(subarr);
+				if (subPermArray.length !== 0) {
+					permutations.push(subPermArray);
 				}
 			} else {
-				addSubsequences(index + 1, subarr);
-				variants.forEach(variant => {
+				addSubsequences(index + 1, subPermArray);
+				trophyVariants.forEach(variant => {
 					if (classListByVariant[variant][index]) {
-						addSubsequences(index + 1, subarr.concat(classListByVariant[variant][index]))
+						addSubsequences(index + 1, subPermArray.concat(classListByVariant[variant][index]))
 					}
 				});
 			}
@@ -104,29 +124,23 @@ async function createImages() {
 		let totalCount = 0;
 
 		// Create elements
-		trophies.forEach(trophy => {
-			variants.forEach(variant => {
-				if (!trophy.variants[variant]) {
-					return;
+		variants.forEach(variant => {
+			let img = document.createElement("img");
+			img.id = variant.id + "-" + variant.variantName;
+			img.src = variant.icon;
+			img.width = "16";
+			img.height = "16";
+			// TODO: Remove hardcoding of image size
+	
+			img.addEventListener("load", () => {
+				loadedCount++;
+				if (loadedCount === totalCount) {
+					resolve(); // All trophy images loaded
 				}
-
-				let img = document.createElement("img");
-				img.id = trophy.id + "-" + variant;
-				img.src = trophy.variants[variant].icon;
-				img.width = "16";
-				img.height = "16";
-				// TODO: Remove hardcoding of image size
-		
-				img.addEventListener("load", () => {
-					loadedCount++;
-					if (loadedCount === totalCount) {
-						resolve(); // All trophy images loaded
-					}
-				});
-
-				totalCount++;
-				trophyList.appendChild(img);
 			});
+
+			totalCount++;
+			trophyList.appendChild(img);
 		});
 	});
 
@@ -141,28 +155,20 @@ function drawCanvas(permutations) {
 	elemCanvas.height = permutations.length * 16;
 
 	let trophyElements = {};
-	trophies.forEach(trophy => {
-		variants.forEach(variant => {
-			if (!trophy.variants[variant]) {
-				return;
-			}
-
-			trophyElements[trophy.variants[variant].css_text] = document.getElementById(trophy.id + "-" + variant);
-		});
+	variants.forEach(variant => {
+		trophyElements[variant.css_text] = document.getElementById(variant.id + "-" + variant.variantName);
 	});
 
 	let y = 0;
 	permutations.forEach(permutation => {
 		let x = 0;
 		permutation.forEach(single => {
-			trophies.forEach(trophy => {
-				variants.forEach(variant => {
-					if (trophy.variants[variant] && trophy.variants[variant].css_text === single) {
-						let img = trophyElements[single];
-						ctx.drawImage(img, x*16, y*16);
-						x++;
-					}
-				});
+			variants.forEach(variant => {
+				if (single === variant.css_text) {
+					let img = trophyElements[single];
+					ctx.drawImage(img, x*16, y*16);
+					x++;
+				}
 			});
 		});
 		y++;
