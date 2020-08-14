@@ -1,4 +1,4 @@
-import {trophies} from '../config.js';
+import {trophies, variants} from '../config.js';
 
 generatePermutations().then(permutations => {
 	listPermutations(permutations);
@@ -10,19 +10,35 @@ generatePermutations().then(permutations => {
 
 async function generatePermutations() {
 	let promise = new Promise((resolve, reject) => {
-		const mainList = trophies.map(trophy => trophy.oldCode);
-		const altList = trophies.map(trophy => trophy.oldCode + "+");
-		let permutations = [];
+		let classListByVariant = {};
+		trophies.forEach(trophy => {
+			variants.forEach(variant => {
+				if (typeof classListByVariant[variant] === 'undefined') {
+					classListByVariant[variant] = new Array();
+				}
+				classListByVariant[variant].push(trophy.variants[variant].css_text);
+			});
+		});
 
+		let permutations = [];
 		function addSubsequences(index, subarr) {
-			if (index === mainList.length) {
+			if (index === trophies.length) {
 				if (subarr.length !== 0) {
 					permutations.push(subarr);
 				}
 			} else {
-				addSubsequences(index + 1, subarr); // Subsequence without including the element at current index
-				addSubsequences(index + 1, subarr.concat(mainList[index])); // Subsequence including the main element at current index
-				addSubsequences(index + 1, subarr.concat(altList[index])); // Subsequence including the alternate element at current index
+				/*
+				This code is rather complex.  It recursively calculates all permutations for each flair variant.
+
+				The set of ordered subsequences is known as a powerset.  It's better explained here:
+				https://www.geeksforgeeks.org/generating-all-possible-subsequences-using-recursion/
+
+				This version is modified to also include variants for each element, which act as exclusive pairs.
+				eg. Main, SL1.
+				It grows exponentially (x^y-1), where x is the number of variants+1 and y is the number of entries.
+				*/
+				addSubsequences(index + 1, subarr);
+				variants.forEach(variant => addSubsequences(index + 1, subarr.concat(classListByVariant[variant][index])));
 			}
 			return;
 		}
@@ -46,26 +62,31 @@ function listPermutations(permutations) {
 	elemPermutations.textContent = content;
 }
 
+// Images need to be created on-page and loaded to paint them on the canvas
+// This function ensures they are fully loaded before we move on
 async function createImages() {
 	let promise = new Promise((resolve, reject) => {
 		let trophyList = document.getElementById("spritesheet-trophy-list");
 		let loadedCount = 0;
 
 		trophies.forEach(trophy => {
-			let img = document.createElement("img");
-			img.id = trophy.id;
-			img.src = trophy.icon;
-			img.width = "16";
-			img.height = "16";
-	
-			img.addEventListener("load", () => {
-				loadedCount++;
-				if (loadedCount === trophies.length) {
-					resolve(); // All trophy images loaded
-				}
+			variants.forEach(variant => {
+				let img = document.createElement("img");
+				img.id = trophy.id + "-" + variant;
+				img.src = trophy.variants[variant].icon;
+				img.width = "16";
+				img.height = "16";
+				// TODO: Remove hardcoding of image size
+		
+				img.addEventListener("load", () => {
+					loadedCount++;
+					if (loadedCount === trophies.length * variants.length) {
+						resolve(); // All trophy images loaded
+					}
+				});
+		
+				trophyList.appendChild(img);
 			});
-	
-			trophyList.appendChild(img);
 		});
 	});
 
@@ -81,7 +102,9 @@ function drawCanvas(permutations) {
 
 	let trophyElements = {};
 	trophies.forEach(trophy => {
-		trophyElements["code-" + trophy.oldCode] = document.getElementById(trophy.id);
+		variants.forEach(variant => {
+			trophyElements[trophy.variants[variant].css_text] = document.getElementById(trophy.id + "-" + variant);
+		});
 	});
 
 	let y = 0;
@@ -89,17 +112,13 @@ function drawCanvas(permutations) {
 		let x = 0;
 		permutation.forEach(single => {
 			trophies.forEach(trophy => {
-				if (single === trophy.oldCode || single === trophy.oldCode + "+") {
-					// Removes trailing +
-					// TODO: Remove once SL1 flair icons are added
-					if (single.slice(-1) === '+') {
-						single = single.slice(0, -1);
+				variants.forEach(variant => {
+					if (single === trophy.variants[variant].css_text) {
+						let img = trophyElements[single];
+						ctx.drawImage(img, x*16, y*16);
+						x++;
 					}
-
-					let img = trophyElements["code-" + single];
-					ctx.drawImage(img, x*16, y*16);
-					x++;
-				}
+				});
 			});
 		});
 		y++;

@@ -5,7 +5,7 @@ export function generateOld() {
 
 	trophies.forEach(trophy => {
 		if (document.getElementById(trophy.id).dataset.unlocked === "1") {
-			code += trophy.oldCode;
+			code += trophy.variants["Main"].css_text;
 		}
 	});
 
@@ -21,7 +21,7 @@ export function generateNew() {
 
 	trophies.forEach(trophy => {
 		if (document.getElementById(trophy.id).dataset.unlocked === "1") {
-			code += ":" + trophy.newCode + ":";
+			code += ":" + trophy.variants["Main"].css_class + ":";
 		}
 	});
 

@@ -40,7 +40,7 @@
 
 canvas#spritesheet {
 	position: absolute;
-	left: -1000px;
+	left: -100000px;
 }
 
 .spritesheet-img {

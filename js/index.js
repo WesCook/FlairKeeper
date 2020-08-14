@@ -22,7 +22,7 @@ function createTrophyList() {
 		figure.classList.add("trophy");
 		figure.id = trophy.id;
 		figure.dataset.unlocked = 0;
-		img.src = trophy.icon;
+		img.src = trophy.variants["Main"].icon;
 		img.alt = trophy.name;
 		figcaption.textContent = trophy.name;
 
