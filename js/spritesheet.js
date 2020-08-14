@@ -2,6 +2,7 @@ import {trophies, variants} from '../config.js';
 
 generatePermutations().then(permutations => {
 	listPermutations(permutations);
+	generateCSS(permutations);
 	createImages().then(() => {
 		let elemCanvas = drawCanvas(permutations);
 		generatePreview(elemCanvas);
@@ -60,6 +61,31 @@ function listPermutations(permutations) {
 	});
 
 	elemPermutations.textContent = content;
+}
+
+function generateCSS(permutations) {
+	let elemCSS = document.getElementById("output-css");
+
+	let content = `.flair[class$="T"]:after {
+	display: inline-block;
+	content: "";
+	width: 16px;
+	height: 16px;
+	background: url(%%spritesheet%%);
+	vertical-align: -5px;
+	margin: 0 3px;
+}
+.link .flair[class$="T"]:after {
+	margin-top: -4px !important;
+}\n\n`;
+
+	let y = 0;
+	permutations.forEach(permutation => {
+		content += `.flair-${ permutation.join('') }T:after {background-position: 0 -${ y*16 }px !important; width: 32px !important}\n`;
+		y++; // TODO: Remove hardcoded 16x size
+	});
+
+	elemCSS.textContent = content;
 }
 
 // Images need to be created on-page and loaded to paint them on the canvas
