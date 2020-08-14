@@ -14,6 +14,9 @@ async function generatePermutations() {
 		let classListByVariant = {};
 		trophies.forEach(trophy => {
 			variants.forEach(variant => {
+				if (!trophy.variants[variant]) {
+					return;
+				}
 				if (typeof classListByVariant[variant] === 'undefined') {
 					classListByVariant[variant] = new Array();
 				}
@@ -21,6 +24,16 @@ async function generatePermutations() {
 			});
 		});
 
+		/*
+		This code is rather complex.  It recursively calculates all permutations for each flair variant.
+
+		The set of ordered subsequences is known as a powerset.  It's better explained here:
+		https://www.geeksforgeeks.org/generating-all-possible-subsequences-using-recursion/
+
+		This version is modified to also include variants for each element, which act as exclusive pairs.
+		eg. Main, SL1.
+		It grows exponentially (x^y-1), where x is the number of variants+1 and y is the number of entries.
+		*/
 		let permutations = [];
 		function addSubsequences(index, subarr) {
 			if (index === trophies.length) {
@@ -28,18 +41,12 @@ async function generatePermutations() {
 					permutations.push(subarr);
 				}
 			} else {
-				/*
-				This code is rather complex.  It recursively calculates all permutations for each flair variant.
-
-				The set of ordered subsequences is known as a powerset.  It's better explained here:
-				https://www.geeksforgeeks.org/generating-all-possible-subsequences-using-recursion/
-
-				This version is modified to also include variants for each element, which act as exclusive pairs.
-				eg. Main, SL1.
-				It grows exponentially (x^y-1), where x is the number of variants+1 and y is the number of entries.
-				*/
 				addSubsequences(index + 1, subarr);
-				variants.forEach(variant => addSubsequences(index + 1, subarr.concat(classListByVariant[variant][index])));
+				variants.forEach(variant => {
+					if (classListByVariant[variant][index]) {
+						addSubsequences(index + 1, subarr.concat(classListByVariant[variant][index]))
+					}
+				});
 			}
 			return;
 		}
@@ -69,9 +76,7 @@ function generateCSS(permutations) {
 	let content = `.flair[class$="T"]:after {
 	display: inline-block;
 	content: "";
-	width: 16px;
 	height: 16px;
-	background: url(%%spritesheet%%);
 	vertical-align: -5px;
 	margin: 0 3px;
 }
@@ -81,7 +86,7 @@ function generateCSS(permutations) {
 
 	let y = 0;
 	permutations.forEach(permutation => {
-		content += `.flair-${ permutation.join('') }T:after {background-position: 0 -${ y * 16 }px !important; width: ${ permutation.length * 16 }px !important;}\n`;
+		content += `.flair-${ permutation.join('') }T:after {background: url(%%s%%) 0 -${ y * 16 }px; width: ${ permutation.length * 16 }px;}\n`;
 		y++; // TODO: Remove hardcoded 16x16 size
 	});
 
@@ -93,10 +98,18 @@ function generateCSS(permutations) {
 async function createImages() {
 	let promise = new Promise((resolve, reject) => {
 		let trophyList = document.getElementById("spritesheet-trophy-list");
-		let loadedCount = 0;
 
+		// Determine total number of variants
+		let loadedCount = 0;
+		let totalCount = 0;
+
+		// Create elements
 		trophies.forEach(trophy => {
 			variants.forEach(variant => {
+				if (!trophy.variants[variant]) {
+					return;
+				}
+
 				let img = document.createElement("img");
 				img.id = trophy.id + "-" + variant;
 				img.src = trophy.variants[variant].icon;
@@ -106,11 +119,12 @@ async function createImages() {
 		
 				img.addEventListener("load", () => {
 					loadedCount++;
-					if (loadedCount === trophies.length * variants.length) {
+					if (loadedCount === totalCount) {
 						resolve(); // All trophy images loaded
 					}
 				});
-		
+
+				totalCount++;
 				trophyList.appendChild(img);
 			});
 		});
@@ -129,6 +143,10 @@ function drawCanvas(permutations) {
 	let trophyElements = {};
 	trophies.forEach(trophy => {
 		variants.forEach(variant => {
+			if (!trophy.variants[variant]) {
+				return;
+			}
+
 			trophyElements[trophy.variants[variant].css_text] = document.getElementById(trophy.id + "-" + variant);
 		});
 	});
@@ -139,7 +157,7 @@ function drawCanvas(permutations) {
 		permutation.forEach(single => {
 			trophies.forEach(trophy => {
 				variants.forEach(variant => {
-					if (single === trophy.variants[variant].css_text) {
+					if (trophy.variants[variant] && trophy.variants[variant].css_text === single) {
 						let img = trophyElements[single];
 						ctx.drawImage(img, x*16, y*16);
 						x++;
@@ -163,7 +181,7 @@ function generatePreview(elemCanvas) {
 		document.getElementById("section-spritesheet").appendChild(elemImg);
 
 		let elemDownloadLink = document.getElementById("spritesheet-download");
-		elemDownloadLink.setAttribute("download", "spritesheet.png");
+		elemDownloadLink.setAttribute("download", "s.png");
 		elemDownloadLink.setAttribute("href", url);
 	}, "image/png", 1);
 }
