@@ -3,10 +3,10 @@ import {trophies} from '../config.js';
 import * as clipboard from './modules/clipboard.js';
 import * as flairCodes from './modules/flair-codes.js';
 
-let elemOutputOld = document.getElementById("output-old");
-let elemOutputNew = document.getElementById("output-new");
-let elemCopyOld = document.getElementById("output-old-copy");
-let elemCopyNew = document.getElementById("output-new-copy");
+let elemOutputCSSClass = document.getElementById("output-css-class");
+let elemOutputCSSText = document.getElementById("output-css-text");
+let elemCopyCSSClass = document.getElementById("output-css-class-copy");
+let elemCopyCSSText = document.getElementById("output-css-text-copy");
 
 createTrophyList();
 setupEventListeners();
@@ -39,37 +39,37 @@ function toggleTrophy() {
 }
 
 function updateFlairCodes() {
-	let oldFlair = flairCodes.generateOld();
-	let newFlair = flairCodes.generateNew();
+	let flairClass = flairCodes.generateCSSText();
+	let flairText = flairCodes.generateCSSClass();
 
 	// Update text boxes values
-	elemOutputOld.value = oldFlair;
-	elemOutputNew.value = newFlair;
+	elemOutputCSSClass.value = flairClass;
+	elemOutputCSSText.value = flairText;
 
 	// Enable Copy buttons if code isn't empty
-	elemCopyOld.disabled = !oldFlair;
-	elemCopyNew.disabled = !newFlair;
+	elemCopyCSSClass.disabled = !flairClass;
+	elemCopyCSSText.disabled = !flairText;
 }
 
 function setupEventListeners() {
 	// Select whole code output on focus
-	elemOutputOld.addEventListener("focus", () => {
-		elemOutputOld.select();
+	elemOutputCSSClass.addEventListener("focus", () => {
+		elemOutputCSSClass.select();
 	});
 
-	elemOutputNew.addEventListener("focus", () => {
-		elemOutputNew.select();
+	elemOutputCSSText.addEventListener("focus", () => {
+		elemOutputCSSText.select();
 	});
 
 
 	// Detect clicks on Copy
-	elemCopyOld.addEventListener("click", () => {
-		clipboard.copy(elemOutputOld.value);
-		clipboard.displayCopied(elemCopyOld);
+	elemCopyCSSClass.addEventListener("click", () => {
+		clipboard.copy(elemOutputCSSClass.value);
+		clipboard.displayCopied(elemCopyCSSClass);
 	});
 
-	elemCopyNew.addEventListener("click", () => {
-		clipboard.copy(elemOutputNew.value);
-		clipboard.displayCopied(elemCopyNew);
+	elemCopyCSSText.addEventListener("click", () => {
+		clipboard.copy(elemOutputCSSText.value);
+		clipboard.displayCopied(elemCopyCSSText);
 	});
 }

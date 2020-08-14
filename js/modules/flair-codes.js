@@ -1,6 +1,6 @@
 import {trophies} from '../../config.js';
 
-export function generateOld() {
+export function generateCSSClass() {
 	let code = "";
 
 	trophies.forEach(trophy => {
@@ -16,7 +16,7 @@ export function generateOld() {
 	return code;
 }
 
-export function generateNew() {
+export function generateCSSText() {
 	let code = "";
 
 	trophies.forEach(trophy => {

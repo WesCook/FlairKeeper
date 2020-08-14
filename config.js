@@ -12,8 +12,8 @@ const variants = ["Main", "SL1"];
 // ID: the ID for the element
 // Name: the label under the icon
 // Icon: path to an image to display
-// css_text: The flair code to represent this game on the subreddit.  Always ends in a 'T'.  Applies to old Reddit (eg. "DeBbSekT").
-// css_class: The same, but for new reddit's emojis.  Automatically adds surrounding colons (eg. ":DeS::Bb::Sek:").
+// css_text: The same, but for new reddit's emojis.  Automatically adds surrounding colons (eg. ":DeS::Bb::Sek:").
+// css_class: The flair code to represent this game on the subreddit.  Always ends in a 'T'.  Applies to old Reddit (eg. "DeBbSekT").
 const trophies = [
 	{
 		id: "demonssouls", name: "Demon's Souls", variants: {
