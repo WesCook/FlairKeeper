@@ -13,7 +13,7 @@ wireButtons();
 
 // Check if "code" query string exists to set up an OAuth connection
 async function checkNewAuthorization() {
-	let code = new URL(window.location.href).searchParams.get("code");
+	let code = new URLSearchParams(window.location.search).get("code");
 
 	// No code, so not trying to connect
 	if (!code) {
