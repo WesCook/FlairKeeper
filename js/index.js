@@ -43,24 +43,18 @@ function updateFlairCodes() {
 	let flairText = flairCodes.generateCSSClass();
 
 	// Update text boxes values
-	elemOutputCSSClass.value = flairClass;
 	elemOutputCSSText.value = flairText;
+	elemOutputCSSClass.value = flairClass;
 
 	// Enable Copy buttons if code isn't empty
-	elemCopyCSSClass.disabled = !flairClass;
 	elemCopyCSSText.disabled = !flairText;
+	elemCopyCSSClass.disabled = !flairClass;
 }
 
 function setupEventListeners() {
 	// Select whole code output on focus
-	elemOutputCSSClass.addEventListener("focus", () => {
-		elemOutputCSSClass.select();
-	});
-
-	elemOutputCSSText.addEventListener("focus", () => {
-		elemOutputCSSText.select();
-	});
-
+	elemOutputCSSText.addEventListener("focus", () => elemOutputCSSText.select());
+	elemOutputCSSClass.addEventListener("focus", () => elemOutputCSSClass.select());
 
 	// Detect clicks on Copy
 	elemCopyCSSClass.addEventListener("click", () => {

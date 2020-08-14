@@ -1,7 +1,7 @@
 import {trophies, variants as trophyVariants} from '../config.js';
 import {colorFromString} from './modules/color-from-string.js';
 
-const debugVariants = false; // Draw background based on variant
+const debugVariants = true; // Draw background based on variant
 let variants = generateVariants();
 
 generatePermutations().then(permutations => {
@@ -43,7 +43,7 @@ async function generatePermutations() {
 			if (typeof classListByVariant[variant.variantName] === 'undefined') {
 				classListByVariant[variant.variantName] = new Array();
 			}
-			classListByVariant[variant.variantName].push(variant.css_text);
+			classListByVariant[variant.variantName].push(variant.css_class);
 		});
 
 		/*
@@ -158,7 +158,7 @@ function drawCanvas(permutations) {
 
 	let trophyElements = {};
 	variants.forEach(variant => {
-		trophyElements[variant.css_text] = document.getElementById(variant.id + "-" + variant.variantName);
+		trophyElements[variant.css_class] = document.getElementById(variant.id + "-" + variant.variantName);
 	});
 
 	let y = 0;
@@ -166,7 +166,7 @@ function drawCanvas(permutations) {
 		let x = 0;
 		permutation.forEach(single => {
 			variants.forEach(variant => {
-				if (single === variant.css_text) {
+				if (single === variant.css_class) {
 					// Draw background square based on variant name for debugging purposes
 					if (debugVariants) {
 						ctx.fillStyle = colorFromString(variant.variantName);
