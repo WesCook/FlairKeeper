@@ -1,5 +1,7 @@
 import {trophies, variants as trophyVariants} from '../config.js';
+import {colorFromString} from './modules/color-from-string.js';
 
+const debugVariants = false; // Draw background based on variant
 let variants = generateVariants();
 
 generatePermutations().then(permutations => {
@@ -165,6 +167,13 @@ function drawCanvas(permutations) {
 		permutation.forEach(single => {
 			variants.forEach(variant => {
 				if (single === variant.css_text) {
+					// Draw background square based on variant name for debugging purposes
+					if (debugVariants) {
+						ctx.fillStyle = colorFromString(variant.variantName);
+						ctx.fillRect(x*16, y*16, 16, 16);
+					}
+
+					// Draw icon
 					let img = trophyElements[single];
 					ctx.drawImage(img, x*16, y*16);
 					x++;
