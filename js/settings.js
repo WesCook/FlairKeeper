@@ -6,21 +6,20 @@ let elemExportList = document.getElementById("subreddit-export-list");
 
 (async function main() {
 	await checkNewAuthorization(); // Requires an IIFE until top-level await is approved (https://github.com/tc39/proposal-top-level-await)
-	populateFields();
+	await populateFields();
 })();
 
 wireButtons();
 
 // Check if "code" query string exists to set up an OAuth connection
 async function checkNewAuthorization() {
-	let code = new URLSearchParams(window.location.search).get("code");
-
 	// No code, so not trying to connect
+	let code = new URLSearchParams(window.location.search).get("code");
 	if (!code) {
 		return;
 	}
 
-	let stateReceived = new URL(window.location.href).searchParams.get("state");
+	let stateReceived = new URLSearchParams(window.location.search).get("state");
 	let stateSent = localStorage.getItem("state");
 
 	if (stateReceived !== stateSent) {
@@ -36,80 +35,80 @@ async function checkNewAuthorization() {
 }
 
 // Fetch subreddit data and populate dropdowns/checkboxes
-function populateFields() {
-	if (!auth.getRefreshToken()) {
+async function populateFields() {
+	if (!localStorage.getItem("refreshToken")) {
 		console.log("Cannot populate fields.  Refresh token not found");
 		return;
 	}
 
-	auth.getReddit()
-		.then(r => r.getModeratedSubreddits())
-		.then(subList => {
-			// Re-enable elements
-			let elemSave = document.getElementById("btn-save");
-			elemImportList.disabled = false;
-			elemImportList.innerHTML = "";
-			elemSave.disabled = false;
+	let reddit = await auth.getReddit();
+	let subList = await reddit.getModeratedSubreddits();
 
-			// Load saved data
-			let importSub = localStorage.getItem("importSub") || "";
-			let exportSubs = localStorage.getItem("exportSubs") || [];
+	// Re-enable elements
+	let elemSave = document.getElementById("btn-save");
+	elemImportList.disabled = false;
+	elemImportList.innerHTML = "";
+	elemSave.disabled = false;
 
-			// Generate fields and populate with saved data
-			subList.forEach(sub => {
-				let hasFlairPermission = (sub.mod_permissions.includes("all") || sub.mod_permissions.includes("flair"));
+	// Load saved data
+	let importSub = localStorage.getItem("importSub") || "";
+	let exportSubs = localStorage.getItem("exportSubs") || [];
 
-				////////////////
-				// Import Sub //
-				////////////////
+	// Generate fields and populate with saved data
+	subList.forEach(sub => {
+		let hasFlairPermission = (sub.mod_permissions.includes("all") || sub.mod_permissions.includes("flair"));
 
-				// TODO: Test if flair perms are required to read flair values
+		////////////////
+		// Import Sub //
+		////////////////
 
-				let elemOption = document.createElement("OPTION");
-				elemOption.textContent = "/" + sub.display_name_prefixed;
+		// Create dropdown
+		let elemOption = document.createElement("OPTION");
+		elemOption.textContent = "/" + sub.display_name_prefixed;
 
-				if (elemOption.textContent === importSub) {
-					elemOption.selected = true;
-				}
-				elemImportList.appendChild(elemOption);
+		if (elemOption.textContent === importSub) {
+			elemOption.selected = true;
+		}
+		elemImportList.appendChild(elemOption);
 
-				/////////////////
-				// Export Subs //
-				/////////////////
+		/////////////////
+		// Export Subs //
+		/////////////////
 
-				let elemListItem = document.createElement("li");
+		let elemListItem = document.createElement("li");
 
-				let elemInput = document.createElement("input");
-				elemInput.type = "checkbox";
-				elemInput.id = "sub-" + sub.display_name;
-				elemInput.classList.add("subreddit-export-item");
-				elemInput.name = "/" + sub.display_name_prefixed;
+		// Create checkbox
+		let elemInput = document.createElement("input");
+		elemInput.type = "checkbox";
+		elemInput.id = "sub-" + sub.display_name;
+		elemInput.classList.add("subreddit-export-item");
+		elemInput.name = "/" + sub.display_name_prefixed;
 
-				if (exportSubs.includes(elemInput.name)) {
-					elemInput.checked = true;
-				}
+		if (exportSubs.includes(elemInput.name)) {
+			elemInput.checked = true;
+		}
 
-				if (!hasFlairPermission) {
-					elemInput.disabled = true;
-					elemInput.checked = false;
-				}
+		if (!hasFlairPermission) {
+			elemInput.disabled = true;
+			elemInput.checked = false;
+		}
 
-				elemListItem.appendChild(elemInput);
+		// Create label
+		elemListItem.appendChild(elemInput);
 
-				let elemLabel = document.createElement("label");
-				elemLabel.htmlFor = "sub-" + sub.display_name;
-				elemLabel.textContent = "/" + sub.display_name_prefixed;
+		let elemLabel = document.createElement("label");
+		elemLabel.htmlFor = "sub-" + sub.display_name;
+		elemLabel.textContent = "/" + sub.display_name_prefixed;
 
-				if (!hasFlairPermission) {
-					elemLabel.title = "Missing flair permission";
-					elemLabel.classList.add("faded");
-				}
+		if (!hasFlairPermission) {
+			elemLabel.title = "Missing flair permission";
+			elemLabel.classList.add("faded");
+		}
 
-				elemListItem.appendChild(elemLabel);
+		elemListItem.appendChild(elemLabel);
 
-				elemExportList.appendChild(elemListItem);
-			})
-		});
+		elemExportList.appendChild(elemListItem);
+	});
 }
 
 function wireButtons() {
@@ -121,19 +120,18 @@ function wireButtons() {
 }
 
 // Delete local data and revoke app
-function buttonDisconnect() {
+async function buttonDisconnect() {
 	if (!confirm("Are you sure you'd like to disconnect your account?")) {
 		return;
 	}
 
-	auth.getReddit()
-	.then(r => r.revokeRefreshToken())
-	.finally(() => {
-		localStorage.removeItem("refreshToken");
-		localStorage.removeItem("importSub");
-		localStorage.removeItem("exportSubs");
-		window.location.href = "./"
-	});
+	let reddit = await auth.getReddit();
+	await reddit.revokeRefreshToken();
+
+	localStorage.removeItem("refreshToken");
+	localStorage.removeItem("importSub");
+	localStorage.removeItem("exportSubs");
+	window.location.href = "./";
 }
 
 function buttonSave() {

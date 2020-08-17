@@ -1,6 +1,6 @@
 import * as auth from './modules/auth.js';
 
-if (!auth.getRefreshToken()) {
+if (!localStorage.getItem("refreshToken")) {
 	wireConnect();
 }
 

@@ -6,16 +6,17 @@ if (debug) {
 	document.documentElement.classList.add("debug");
 }
 
-let variants = generateVariants();
+const variants = generateVariants();
+let permutations = [];
 
-generatePermutations().then(permutations => {
+(async function main() {
+	permutations = await generatePermutations();
 	listPermutations(permutations);
 	generateCSS(permutations);
-	createImages().then(() => {
+	await createImages();
 	let elemCanvas = drawCanvas(permutations);
 	generatePreview(elemCanvas);
-	});
-});
+})();
 
 // Flat list of trophies with variants for easier looping
 function generateVariants() {
@@ -153,6 +154,8 @@ async function createImages() {
 	return promise;
 }
 
+// TODO: Try slowing down to enable larger paint jobs
+// Would need to turn into an async function
 function drawCanvas(permutations) {
 	let elemCanvas = document.getElementById("spritesheet");
 	let ctx = elemCanvas.getContext("2d");
@@ -192,15 +195,19 @@ function drawCanvas(permutations) {
 
 function generatePreview(elemCanvas) {
 	elemCanvas.toBlob(blob => {
-		let url = URL.createObjectURL(blob);
+		try {
+			let url = URL.createObjectURL(blob);
 
-		let elemImg = document.createElement('img');
-		elemImg.src = url;
-		elemImg.classList.add("spritesheet-img");
-		document.getElementById("section-spritesheet").appendChild(elemImg);
+			let elemImg = document.createElement('img');
+			elemImg.src = url;
+			elemImg.classList.add("spritesheet-img");
+			document.getElementById("section-spritesheet").appendChild(elemImg);
 
-		let elemDownloadLink = document.getElementById("spritesheet-download");
-		elemDownloadLink.setAttribute("download", "s.png");
-		elemDownloadLink.setAttribute("href", url);
+			let elemDownloadLink = document.getElementById("spritesheet-download");
+			elemDownloadLink.setAttribute("download", "s.png");
+			elemDownloadLink.setAttribute("href", url);
+		} catch(err) {
+			console.log("There was an error rendering the canvas: " + err);
+		}
 	}, "image/png", 1);
 }

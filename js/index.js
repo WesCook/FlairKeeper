@@ -12,9 +12,8 @@ let elemCopyCSSText = document.getElementById("output-css-text-copy");
 (async function main() {
 	if (localStorage.getItem("refreshToken")) {
 		let reddit = await auth.getReddit();
-		reddit.getSubreddit("SquareWheel").fetch().getUserFlair("SquareWheel").then(flair => {
-			console.log(flair.flair_text);
-		});
+		let flair = await reddit.getSubreddit("SquareWheel").fetch().getUserFlair("SquareWheel");
+		console.log(flair.flair_text);
 	}
 })();
 
