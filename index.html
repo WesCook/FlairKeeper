@@ -29,13 +29,18 @@
 	</nav>
 
 	<section class="section-username connected-only">
-		<div class="input-grid">
-			<label for="username">Username</label>
-			<input type="text" id="username" size="20">
-			<button id="import-btn" disabled>Import</button>
-			<span class="spinner disabled"></span>
-		</div>
-		<p class="tip">Enter a redditor name or user page to import their existing trophies.</p>
+		<form>
+			<div class="input-grid">
+				<label for="username">Username</label>
+				<input id="username" type="text" size="20">
+				<button id="btn-import" type="submit" disabled>Import</button>
+				<span class="spinner hidden"></span>
+			</div>
+		</form>
+		<p id="import-tip" class="tip">Enter a redditor name or user page to import their existing trophies.</p>
+		<p id="import-error" class="tip hidden">
+			<a class="error" href="settings.html">Requires at least one export subreddit</a>
+		</p>
 	</section>
 
 	<section class="section-trophies">

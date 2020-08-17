@@ -32,6 +32,7 @@ body > section {
 	}
 	.input-grid input {
 		margin: 0;
+		width: 100%;
 	}
 	.input-grid button,
 	.input-grid a.btn {

@@ -2,13 +2,16 @@
 	--gold-trim: #b0ae4c;
 }
 
-.disabled {
+.hidden {
 	display: none;
 }
 
 .faded {
 	opacity: 0.25;
-	/* pointer-events: none; */
+}
+
+.error {
+	color: #ab0000 !important;
 }
 
 .ignore-grid {
