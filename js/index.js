@@ -2,11 +2,21 @@ import './common.js';
 import {trophies} from '../config.js';
 import * as clipboard from './modules/clipboard.js';
 import * as flairCodes from './modules/flair-codes.js';
+import * as auth from './modules/auth.js';
 
 let elemOutputCSSClass = document.getElementById("output-css-class");
 let elemOutputCSSText = document.getElementById("output-css-text");
 let elemCopyCSSClass = document.getElementById("output-css-class-copy");
 let elemCopyCSSText = document.getElementById("output-css-text-copy");
+
+(async function main() {
+	if (localStorage.getItem("refreshToken")) {
+		let reddit = await auth.getReddit();
+		reddit.getSubreddit("SquareWheel").fetch().getUserFlair("SquareWheel").then(flair => {
+			console.log(flair.flair_text);
+		});
+	}
+})();
 
 createTrophyList();
 setupEventListeners();
