@@ -6,7 +6,8 @@
 }
 @media only screen and (max-width: 435px) {
 	#subreddit-export-list {
-		grid-template-columns: 1fr;
+		grid-template-columns: max-content;
+		justify-content: center;
 	}
 }
 

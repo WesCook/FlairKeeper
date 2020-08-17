@@ -6,6 +6,10 @@ body {
 	line-height: 1.4;
 }
 
+p {
+	margin-bottom: 5px;
+}
+
 h1 {
 	font-family: "EB Garamond";
 	font-weight: bold;
@@ -119,9 +123,8 @@ nav {
 	color: #ddd;
 }
 
-nav a,
-nav span {
-	margin: 3px;
+nav a, nav span.current {
+	margin: 0 3px;
 }
 
 nav .current {
@@ -147,6 +150,7 @@ nav .current {
 	margin-top: 11px;
 }
 
-.section-connect p {
+.section-connect p,
+.section-spritesheet p {
 	margin-bottom: 9px;
 }
