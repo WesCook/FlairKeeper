@@ -65,10 +65,24 @@ async function btnImportClicked() {
 	elemBtnExport.disabled = true;
 	emptyTrophyButtonState();
 
+	// Get username from URL (if necessary)
+	let username = elemUser.value;
+	try {
+		if (username.includes("reddit.com")) {
+			let re = new RegExp('reddit\.com/(user|u)/([a-zA-Z0-9\_\-]+)');
+			let match = re.exec(username);
+			username = match[2];
+		}
+	}
+	catch(err) {
+		console.log("Regex error when parsing username.");
+		console.log(err);
+	}
+
 	// Get flair data
 	let importSub = subPrefs.getImport();
 	const reddit = await auth.getReddit();
-	const flair = await reddit.getSubreddit(importSub).fetch().getUserFlair(elemUser.value);
+	const flair = await reddit.getSubreddit(importSub).fetch().getUserFlair(username);
 
 	// Re-enable and update trophy buttons
 	elemBtnExport.disabled = false;
