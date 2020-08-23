@@ -1,5 +1,5 @@
 import './common.js';
-import {trophies} from '../config.js';
+import {trophies, variants} from '../config.js';
 import * as clipboard from './modules/clipboard.js';
 import * as flairCodes from './modules/flair-codes.js';
 import * as auth from './modules/auth.js';
@@ -58,21 +58,57 @@ function importSetup() {
 }
 
 async function btnImportClicked() {
-	event.preventDefault(); // Stop form from firing
-	setTrophyButtonState(); // TODO: Deselect all buttons
+	let elemBtnExport = document.getElementById("btn-export");
 
+	// Disable everything while loading
+	event.preventDefault(); // Stop form from firing
+	elemBtnExport.disabled = true;
+	emptyTrophyButtonState();
+
+	// Get flair data
 	let importSub = subPrefs.getImport();
 	const reddit = await auth.getReddit();
 	const flair = await reddit.getSubreddit(importSub).fetch().getUserFlair(elemUser.value);
 
-	document.getElementById("btn-export").disabled = false;
-	setTrophyButtonState(flair.flair_text); // TODO: Parse into object of booleans
+	// Re-enable and update trophy buttons
+	elemBtnExport.disabled = false;
+	let state = parseFlairIntoStates(flair.flair_text);
+	setTrophyButtonState(state);
+}
+
+// Expects string in the format of :text1::text2:
+function parseFlairIntoStates(flairText) {
+	let flairs = flairText.slice(1, -1).split("::");
+	let states = {};
+
+	trophies.forEach(trophy => {
+		variants.every(variant => {
+			if (trophy.variants[variant] !== undefined && flairs.includes(trophy.variants[variant].css_text)) {
+				states[trophy.id] = true;
+				return;
+			}
+			states[trophy.id] = false;
+		});
+	});
+
+	return states;
+}
+
+function emptyTrophyButtonState() {
+	let trophyButtonState = {};
+	trophies.forEach(trophy => {
+		trophyButtonState[trophy.id] = false;
+	});
+	setTrophyButtonState(trophyButtonState);
 }
 
 // Accepts object where keys are the trophy ID, and value is a boolean of its state
 // {demonssouls: true, darksouls1: false}
-function setTrophyButtonState(msg) {
-	console.log(msg); // TODO: Implement
+function setTrophyButtonState(trophyButtonState) {
+	let elemTrophyButtons = document.querySelectorAll("#trophy-list .trophy");
+	elemTrophyButtons.forEach(elemTrophyButton => {
+		elemTrophyButton.dataset.unlocked = (trophyButtonState[elemTrophyButton.id]) ? "1" : "0";
+	});
 }
 
 function toggleTrophy() {
