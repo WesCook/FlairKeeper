@@ -1,7 +1,7 @@
 // Reddit Application information (https://www.reddit.com/prefs/apps/)
 const redditApp = {
 	clientId: "ftsPs2iwqWeb2A",
-	userAgent: "SoulsFlairBot"
+	userAgent: "FlairKeeper"
 }
 
 // Variants for each flair option
