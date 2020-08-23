@@ -59,10 +59,12 @@ function importSetup() {
 
 async function btnImportClicked() {
 	let elemBtnExport = document.getElementById("btn-export");
+	let elemTrophyList = document.getElementById("trophy-list");
 
 	// Disable everything while loading
 	event.preventDefault(); // Stop form from firing
 	elemBtnExport.disabled = true;
+	elemTrophyList.classList.add("disable-click");
 	emptyTrophyButtonState();
 
 	// Get username from URL (if necessary)
@@ -86,6 +88,7 @@ async function btnImportClicked() {
 
 	// Re-enable and update trophy buttons
 	elemBtnExport.disabled = false;
+	elemTrophyList.classList.remove("disable-click");
 	let state = parseFlairIntoStates(flair.flair_text);
 	setTrophyButtonState(state);
 }
