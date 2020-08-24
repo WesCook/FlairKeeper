@@ -116,26 +116,8 @@ async function btnImportClicked() {
 	// Re-enable and update trophy buttons
 	elemBtnExport.disabled = false;
 	elemTrophyList.classList.remove("disable-click");
-	const state = parseFlairIntoStates(flair.flair_text);
+	const state = flairCodes.parseFlairIntoStates(flair.flair_text);
 	setTrophyButtonState(state);
-}
-
-// Expects string in the format of :text1::text2:
-function parseFlairIntoStates(flairText) {
-	const flairs = flairText.slice(1, -1).split("::");
-	let states = {};
-
-	trophies.forEach(trophy => {
-		variants.every(variant => {
-			if (trophy.variants[variant] !== undefined && flairs.includes(trophy.variants[variant].css_text)) {
-				states[trophy.id] = true;
-				return;
-			}
-			states[trophy.id] = false;
-		});
-	});
-
-	return states;
 }
 
 function emptyTrophyButtonState() {
