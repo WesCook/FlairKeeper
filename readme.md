@@ -8,9 +8,7 @@ Connects via OAuth2 to your reddit account, should you choose to connect it for 
 
 Designed with configurability in mind.  Trophies can be be added or adjusted in the `config.js` file.  A variants system exists to allow upgrades or alternate versions of trophies (eg. an "SL1" variant).
 
-Finally, a spritesheet generator has been included.  This will generate both the spritesheet image and CSS for all possible permutations of trophies and their variants.  These numbers grow exponentially, so consider minimizing the number of variants.  The number of permutations will be `((variants + 1) ^ trophies) - 1`.
-
-Append `?debug` to the URL to show additional information.
+Finally, a spritesheet generator has been included.  This will generate both the spritesheet image and CSS for all possible permutations of trophies and their variants.  These numbers grow exponentially, so consider minimizing the number of variants.  The number of permutations will be `((variants + 1) ^ trophies) - 1`.  Icons must be 16x16.
 
 ### To use this instance
 
