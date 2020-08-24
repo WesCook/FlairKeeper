@@ -24,3 +24,7 @@ canvas#spritesheet + .spritesheet-img {
 	margin-top: 30px;
 	margin-bottom: 5px;
 }
+
+.debug .debug-link {
+	display: none;
+}
