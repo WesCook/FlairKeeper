@@ -1,6 +1,9 @@
 function getImport() {
-	let importSub = localStorage.getItem("importSub");
-	return convertPrefix(importSub, true);
+	const importSub = localStorage.getItem("importSub");
+	if (importSub) {
+		return convertPrefix(importSub, true);
+	}
+	return null;
 }
 
 function getExport() {
