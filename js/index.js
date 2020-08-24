@@ -39,7 +39,7 @@ function createTrophyList() {
 
 		figure.appendChild(img);
 		figure.appendChild(figcaption);
-		figure.addEventListener("click", toggleTrophy);
+		figure.addEventListener("click", progressTrophyVariant);
 		trophyContainerDiv.appendChild(figure);
 
 		// Variant buttons
@@ -56,6 +56,7 @@ function createTrophyList() {
 					let variantButton = document.createElement("a");
 					variantButton.classList.add("variant-button");
 					variantButton.textContent = variant;
+					variantButton.addEventListener("click", selectTrophyVariant);
 					variantsContainerDiv.appendChild(variantButton);
 				});
 			}
@@ -72,8 +73,8 @@ function importSetup() {
 		return;
 	}
 
-	let importSub = subPrefs.getImport();
-	let exportSubs = subPrefs.getExport();
+	const importSub = subPrefs.getImport();
+	const exportSubs = subPrefs.getExport();
 
 	// Preferences are set, and export list is not empty
 	// It's safe to enable the Import button
@@ -85,7 +86,7 @@ function importSetup() {
 }
 
 async function btnImportClicked() {
-	let elemBtnExport = document.getElementById("btn-export");
+	const elemBtnExport = document.getElementById("btn-export");
 
 	// Disable everything while loading
 	event.preventDefault(); // Stop form from firing
@@ -108,20 +109,20 @@ async function btnImportClicked() {
 	}
 
 	// Get flair data
-	let importSub = subPrefs.getImport();
+	const importSub = subPrefs.getImport();
 	const reddit = await auth.getReddit();
 	const flair = await reddit.getSubreddit(importSub).fetch().getUserFlair(username);
 
 	// Re-enable and update trophy buttons
 	elemBtnExport.disabled = false;
 	elemTrophyList.classList.remove("disable-click");
-	let state = parseFlairIntoStates(flair.flair_text);
+	const state = parseFlairIntoStates(flair.flair_text);
 	setTrophyButtonState(state);
 }
 
 // Expects string in the format of :text1::text2:
 function parseFlairIntoStates(flairText) {
-	let flairs = flairText.slice(1, -1).split("::");
+	const flairs = flairText.slice(1, -1).split("::");
 	let states = {};
 
 	trophies.forEach(trophy => {
@@ -148,20 +149,39 @@ function emptyTrophyButtonState() {
 // Accepts object where keys are the trophy ID, and value is a boolean of its state
 // {demonssouls: true, darksouls1: false}
 function setTrophyButtonState(trophyButtonState) {
-	let elemTrophyButtons = document.querySelectorAll("#trophy-list .trophy");
+	const elemTrophyButtons = document.querySelectorAll("#trophy-list .trophy");
 	elemTrophyButtons.forEach(elemTrophyButton => {
 		elemTrophyButton.dataset.state = (trophyButtonState[elemTrophyButton.id]) ? "1" : "0";
 	});
 }
 
-function toggleTrophy() {
-	this.parentElement.dataset.state ^= true;
+function progressTrophyVariant() {
+	const elemTrophy = this.parentElement;
+	const trophy = trophies.find(trophy => trophy.id === elemTrophy.id)
+	const availableVariants = Object.keys(trophy.variants);
+
+	// Progress index by 1
+	let currentIndex = availableVariants.findIndex(variant => variant === elemTrophy.dataset.state);
+	if (currentIndex < availableVariants.length - 1) {
+		currentIndex++;
+		elemTrophy.dataset.state = availableVariants[currentIndex];
+	} else {
+		elemTrophy.dataset.state = "0";
+	}
+
+	updateFlairCodes();
+}
+
+function selectTrophyVariant() {
+	const elemTrophy = this.parentElement.parentElement;
+	const chosenVariant = this.textContent;
+	elemTrophy.dataset.state = chosenVariant;
 	updateFlairCodes();
 }
 
 function updateFlairCodes() {
-	let flairClass = flairCodes.generateCSSText();
-	let flairText = flairCodes.generateCSSClass();
+	const flairClass = flairCodes.generateCSSText();
+	const flairText = flairCodes.generateCSSClass();
 
 	// Update text boxes values
 	elemOutputCSSText.value = flairText;
