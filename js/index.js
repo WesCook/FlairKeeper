@@ -151,19 +151,32 @@ function progressTrophyVariant() {
 		elemTrophy.dataset.state = "0";
 	}
 
-	updateFlairCodes();
+	updateTrophyState(elemTrophy.id);
 }
 
 function selectTrophyVariant() {
 	const elemTrophy = this.parentElement.parentElement;
 	const chosenVariant = this.textContent;
 	elemTrophy.dataset.state = chosenVariant;
-	updateFlairCodes();
+	updateTrophyState(elemTrophy.id);
 }
 
-function updateFlairCodes() {
+function updateTrophyState(trophyID) {
+	// Generate new flair codes
 	const flairClass = flairCodes.generateCSSClass();
 	const flairText = flairCodes.generateCSSText();
+
+	// Update icon
+	const elemTrophy = document.getElementById(trophyID);
+	const elemIcon = document.querySelector("#" + trophyID + " .trophy-icon img");
+	const state = elemTrophy.dataset.state;
+	const trophy = trophies.find(trophy => trophy.id === trophyID)
+
+	if (state !== "0") {
+		elemIcon.src = trophy.variants[state].icon;
+	} else {
+		elemIcon.src = trophy.variants["Main"].icon;
+	}
 
 	// Update text boxes values
 	elemOutputCSSText.value = flairText;
