@@ -46,6 +46,7 @@ async function populateFields() {
 	let subList = await reddit.getModeratedSubreddits();
 
 	// Re-enable elements
+	document.getElementById("settings-spinner").classList.add("hidden");
 	elemImportList.disabled = false;
 	elemImportList.innerHTML = "";
 	elemSave.disabled = false;
