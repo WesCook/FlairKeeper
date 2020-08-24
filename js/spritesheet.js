@@ -137,7 +137,6 @@ async function createImages() {
 			img.src = variant.icon;
 			img.width = "16";
 			img.height = "16";
-			// TODO: Remove hardcoding of image size
 	
 			img.addEventListener("load", () => {
 				loadedCount++;
@@ -154,8 +153,6 @@ async function createImages() {
 	return promise;
 }
 
-// TODO: Try slowing down to enable larger paint jobs
-// Would need to turn into an async function
 function drawCanvas(permutations) {
 	let elemCanvas = document.getElementById("spritesheet");
 	let ctx = elemCanvas.getContext("2d");

@@ -1,4 +1,3 @@
-import './common.js';
 import * as auth from './modules/auth.js';
 
 const elemImportList = document.getElementById("subreddit-import-list");
@@ -113,11 +112,21 @@ async function populateFields() {
 }
 
 function wireButtons() {
-	let btnDisconnect = document.getElementById("btn-disconnect");
-	btnDisconnect.disabled = false;
-	btnDisconnect.addEventListener("click", buttonDisconnect);
-
+	// Save button
 	document.getElementById("btn-save").addEventListener("click", buttonSave);
+
+	// Connect button
+	if (!localStorage.getItem("refreshToken")) {
+		let btnConnect = document.getElementById("btn-connect");
+		btnConnect.disabled = false;
+		btnConnect.addEventListener("click", auth.buttonConnect);
+	} else {
+		// Disconnect button
+		let btnDisconnect = document.getElementById("btn-disconnect");
+		btnDisconnect.disabled = false;
+		btnDisconnect.addEventListener("click", buttonDisconnect);
+	}
+	
 }
 
 // Delete local data and revoke app

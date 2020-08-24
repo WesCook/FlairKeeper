@@ -1,4 +1,3 @@
-import './common.js';
 import {trophies, variants} from '../config.js';
 import * as clipboard from './modules/clipboard.js';
 import * as flairCodes from './modules/flair-codes.js';
@@ -14,11 +13,8 @@ const elemCopyCSSText = document.getElementById("output-css-text-copy");
 const elemCopyCSSClass = document.getElementById("output-css-class-copy");
 
 createTrophyList();
-importSetup();
-listenerImport();
-listenerExport();
-listenerExportFocus();
-listenerBtnCopy();
+prepareInputButton();
+wireButtons();
 
 function createTrophyList() {
 	elemTrophyList.innerHTML = "";
@@ -70,7 +66,7 @@ function createTrophyList() {
 }
 
 // Enables Import button if checks pass, else displays error
-function importSetup() {
+function prepareInputButton() {
 	if (!localStorage.getItem("refreshToken")) {
 		return;
 	}
@@ -234,6 +230,14 @@ function updateTrophyState() {
 	elemCopyCSSClass.disabled = !flairClass;
 }
 
+function wireButtons() {
+	listenerImport();
+	listenerExport();
+	listenerExportFocus();
+	listenerBtnCopy();
+	listenerConnect();
+}
+
 function listenerImport() {
 	const elemBtnImport = document.getElementById("btn-import");
 
@@ -267,4 +271,12 @@ function listenerBtnCopy() {
 		clipboard.copy(elemOutputCSSText.value);
 		clipboard.displayCopied(elemCopyCSSText);
 	});
+}
+
+function listenerConnect() {
+	if (!localStorage.getItem("refreshToken")) {
+		let btnConnect = document.getElementById("btn-connect");
+		btnConnect.disabled = false;
+		btnConnect.addEventListener("click", auth.buttonConnect);
+	}
 }
