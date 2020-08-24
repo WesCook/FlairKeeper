@@ -159,7 +159,12 @@ function progressTrophyVariant() {
 function selectTrophyVariant() {
 	const elemTrophy = this.parentElement.parentElement;
 	const chosenVariant = this.textContent;
-	elemTrophy.dataset.state = chosenVariant;
+	const state = elemTrophy.dataset.state;
+	if (state !== chosenVariant) {
+		elemTrophy.dataset.state = chosenVariant;
+	} else {
+		elemTrophy.dataset.state = "0";
+	}
 	updateTrophyState();
 }
 
