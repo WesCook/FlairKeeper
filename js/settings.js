@@ -1,8 +1,9 @@
 import './common.js';
 import * as auth from './modules/auth.js';
 
-let elemImportList = document.getElementById("subreddit-import-list");
-let elemExportList = document.getElementById("subreddit-export-list");
+const elemImportList = document.getElementById("subreddit-import-list");
+const elemExportList = document.getElementById("subreddit-export-list");
+const elemSave = document.getElementById("btn-save");
 
 (async function main() {
 	await checkNewAuthorization(); // Requires an IIFE until top-level await is approved (https://github.com/tc39/proposal-top-level-await)
@@ -45,7 +46,6 @@ async function populateFields() {
 	let subList = await reddit.getModeratedSubreddits();
 
 	// Re-enable elements
-	let elemSave = document.getElementById("btn-save");
 	elemImportList.disabled = false;
 	elemImportList.innerHTML = "";
 	elemSave.disabled = false;
@@ -146,4 +146,10 @@ function buttonSave() {
 	});
 
 	localStorage.setItem("exportSubs", JSON.stringify(exportList));
+
+	elemSave.textContent = "Saved!";
+	setTimeout(() => {
+		elemSave.textContent = "Save";
+	},
+	1500);
 }

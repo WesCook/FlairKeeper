@@ -114,7 +114,7 @@ function generateCSS(permutations) {
 	let y = 0;
 	permutations.forEach(permutation => {
 		content += `.flair-${ permutation.join('') }T:after {background: url(%%s%%) 0 -${ y * 16 }px; width: ${ permutation.length * 16 }px;}\n`;
-		y++; // TODO: Remove hardcoded 16x16 size
+		y++;
 	});
 
 	elemCSS.textContent = content;

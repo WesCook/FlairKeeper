@@ -11,7 +11,7 @@ export function copy(text) {
 export function displayCopied(elem) {
 	let oldText = elem.textContent;
 	elem.textContent = "Copied!";
-	window.setTimeout(() => {
+	setTimeout(() => {
 		elem.textContent = oldText;
 	},
 	1500);

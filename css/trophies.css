@@ -51,6 +51,7 @@
 .variants-container {
 	display: flex;
 	font-size: 0.8em;
+	border-top: 1px solid #191919;
 }
 .variants-container:empty {
 	background-color: #222;
