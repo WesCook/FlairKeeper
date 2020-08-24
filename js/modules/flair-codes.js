@@ -4,8 +4,11 @@ export function generateCSSText() {
 	let code = "";
 
 	trophies.forEach(trophy => {
-		if (document.getElementById(trophy.id).dataset.state === "1") {
-			code += trophy.variants["Main"].css_text;
+		const elemTrophy = document.getElementById(trophy.id);
+		const state = elemTrophy.dataset.state;
+
+		if (state !== "0") {
+			code += trophy.variants[state].css_text;
 		}
 	});
 
@@ -20,8 +23,11 @@ export function generateCSSClass() {
 	let code = "";
 
 	trophies.forEach(trophy => {
-		if (document.getElementById(trophy.id).dataset.state === "1") {
-			code += ":" + trophy.variants["Main"].css_class + ":";
+		const elemTrophy = document.getElementById(trophy.id);
+		const state = elemTrophy.dataset.state;
+
+		if (state !== "0") {
+			code += ":" + trophy.variants[state].css_class + ":";
 		}
 	});
 
