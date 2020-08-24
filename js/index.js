@@ -6,15 +6,17 @@ import * as auth from './modules/auth.js';
 import * as subPrefs from './modules/sub-preferences.js';
 
 const elemTrophyList = document.getElementById("trophy-list");
-const elemOutputCSSClass = document.getElementById("output-css-class");
-const elemOutputCSSText = document.getElementById("output-css-text");
-const elemCopyCSSClass = document.getElementById("output-css-class-copy");
-const elemCopyCSSText = document.getElementById("output-css-text-copy");
 const elemUser = document.getElementById("username");
+const elemBtnExport = document.getElementById("btn-export");
+const elemOutputCSSText = document.getElementById("output-css-text");
+const elemOutputCSSClass = document.getElementById("output-css-class");
+const elemCopyCSSText = document.getElementById("output-css-text-copy");
+const elemCopyCSSClass = document.getElementById("output-css-class-copy");
 
 createTrophyList();
 importSetup();
 listenerImport();
+listenerExport();
 listenerExportFocus();
 listenerBtnCopy();
 
@@ -86,15 +88,52 @@ function importSetup() {
 }
 
 async function btnImportClicked() {
-	const elemBtnExport = document.getElementById("btn-export");
-
 	// Disable everything while loading
 	event.preventDefault(); // Stop form from firing
 	elemBtnExport.disabled = true;
 	elemTrophyList.classList.add("disable-click");
 	emptyTrophyButtonState();
 
-	// Get username from URL (if necessary)
+	// Get flair data
+	const importSub = subPrefs.getImport();
+	const reddit = await auth.getReddit();
+	const username = getUsername();
+	const flair = await reddit.getSubreddit(importSub).fetch().getUserFlair(username);
+
+	// Re-enable and update trophy buttons
+	elemBtnExport.disabled = false;
+	elemTrophyList.classList.remove("disable-click");
+	const state = flairCodes.parseFlairIntoStates(flair.flair_text);
+	setTrophyButtonState(state);
+}
+
+async function btnExportClicked() {
+	elemBtnExport.disabled = true;
+	elemBtnExport.textContent = "Exporting...";
+
+	const flairText = elemOutputCSSText.value;
+	const flairClass = elemOutputCSSClass.value;
+	const username = getUsername();
+
+	// Update flair data
+	const exportSubs = subPrefs.getExport();
+	const reddit = await auth.getReddit();
+	for (const sub of exportSubs) {
+		await reddit.getUser(username).assignFlair({subredditName: sub, text: flairText, cssClass: flairClass});
+	}
+
+	// Re-enable buttons
+	elemBtnExport.disabled = false;
+	elemBtnExport.textContent = "Exported!";
+	setTimeout(() => {
+		elemBtnExport.textContent = "Export";
+	},
+	1500);
+}
+
+// Gets username from input field
+// Strips userpage URL if present
+function getUsername() {
 	let username = elemUser.value;
 	try {
 		if (username.includes("reddit.com")) {
@@ -107,17 +146,7 @@ async function btnImportClicked() {
 		console.log("Regex error when parsing username.");
 		console.log(err);
 	}
-
-	// Get flair data
-	const importSub = subPrefs.getImport();
-	const reddit = await auth.getReddit();
-	const flair = await reddit.getSubreddit(importSub).fetch().getUserFlair(username);
-
-	// Re-enable and update trophy buttons
-	elemBtnExport.disabled = false;
-	elemTrophyList.classList.remove("disable-click");
-	const state = flairCodes.parseFlairIntoStates(flair.flair_text);
-	setTrophyButtonState(state);
+	return username;
 }
 
 function emptyTrophyButtonState() {
@@ -207,8 +236,18 @@ function updateTrophyState() {
 
 function listenerImport() {
 	const elemBtnImport = document.getElementById("btn-import");
-	elemUser.addEventListener("input", () => elemBtnImport.disabled = !elemUser.value); // Enable Import button if text entered
-	elemBtnImport.addEventListener("click", btnImportClicked); // Call function if Import button clicked
+
+	// Enable Import and Export buttons if username present
+	elemUser.addEventListener("input", () => {
+		elemBtnImport.disabled = !elemUser.value;
+		elemBtnExport.disabled = !elemUser.value;
+	});
+
+	elemBtnImport.addEventListener("click", btnImportClicked);
+}
+
+function listenerExport() {
+	elemBtnExport.addEventListener("click", btnExportClicked);
 }
 
 // Select whole code output on focus
