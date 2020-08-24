@@ -133,8 +133,10 @@ function emptyTrophyButtonState() {
 function setTrophyButtonState(trophyButtonState) {
 	const elemTrophyButtons = document.querySelectorAll("#trophy-list .trophy");
 	elemTrophyButtons.forEach(elemTrophyButton => {
-		elemTrophyButton.dataset.state = (trophyButtonState[elemTrophyButton.id]) ? "1" : "0";
+		const state = trophyButtonState[elemTrophyButton.id];
+		elemTrophyButton.dataset.state = (state) ? state : "0";
 	});
+	updateTrophyState();
 }
 
 function progressTrophyVariant() {
@@ -151,41 +153,42 @@ function progressTrophyVariant() {
 		elemTrophy.dataset.state = "0";
 	}
 
-	updateTrophyState(elemTrophy.id);
+	updateTrophyState();
 }
 
 function selectTrophyVariant() {
 	const elemTrophy = this.parentElement.parentElement;
 	const chosenVariant = this.textContent;
 	elemTrophy.dataset.state = chosenVariant;
-	updateTrophyState(elemTrophy.id);
+	updateTrophyState();
 }
 
-function updateTrophyState(trophyID) {
+function updateTrophyState() {
 	// Generate new flair codes
 	const flairClass = flairCodes.generateCSSClass();
 	const flairText = flairCodes.generateCSSText();
 
-	// Update icon
-	const elemTrophy = document.getElementById(trophyID);
-	const elemIcon = document.querySelector("#" + trophyID + " .trophy-icon img");
-	const state = elemTrophy.dataset.state;
-	const trophy = trophies.find(trophy => trophy.id === trophyID)
+	trophies.forEach(trophy => {
+		// Update icon
+		const elemTrophy = document.getElementById(trophy.id);
+		const elemIcon = document.querySelector("#" + trophy.id + " .trophy-icon img");
+		const state = elemTrophy.dataset.state;
 
-	if (state !== "0") {
-		elemIcon.src = trophy.variants[state].icon;
-	} else {
-		elemIcon.src = trophy.variants["Main"].icon;
-	}
-
-	// Update selected variant button
-	const elemVariantButtons = document.querySelectorAll("#" + trophyID + " .variant-button");
-	elemVariantButtons.forEach(elemVariantButton => {
-		if (elemVariantButton.textContent === state) {
-			elemVariantButton.classList.add("variant-selected");
+		if (state !== "0") {
+			elemIcon.src = trophy.variants[state].icon;
 		} else {
-			elemVariantButton.classList.remove("variant-selected");
+			elemIcon.src = trophy.variants["Main"].icon;
 		}
+
+		// Update selected variant button
+		const elemVariantButtons = document.querySelectorAll("#" + trophy.id + " .variant-button");
+		elemVariantButtons.forEach(elemVariantButton => {
+			if (elemVariantButton.textContent === state) {
+				elemVariantButton.classList.add("variant-selected");
+			} else {
+				elemVariantButton.classList.remove("variant-selected");
+			}
+		});
 	});
 
 	// Update text boxes values

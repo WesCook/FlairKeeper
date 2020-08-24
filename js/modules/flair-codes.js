@@ -1,4 +1,4 @@
-import {trophies} from '../../config.js';
+import {trophies, variants} from '../../config.js';
 
 function generateCSSClass() {
 	let code = "";
@@ -40,13 +40,13 @@ function parseFlairIntoStates(flairText) {
 	let states = {};
 
 	trophies.forEach(trophy => {
-		variants.every(variant => {
+		for (const variant of variants) {
 			if (trophy.variants[variant] !== undefined && flairs.includes(trophy.variants[variant].css_text)) {
-				states[trophy.id] = true;
+				states[trophy.id] = variant;
 				return;
 			}
-			states[trophy.id] = false;
-		});
+		}
+		states[trophy.id] = "0"; // Only executes if nothing found in loop
 	});
 
 	return states;
