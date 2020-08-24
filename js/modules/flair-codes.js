@@ -8,7 +8,7 @@ function generateCSSClass() {
 		const state = elemTrophy.dataset.state;
 
 		if (state !== "0") {
-			code += trophy.variants[state].css_text;
+			code += trophy.variants[state].css_class;
 		}
 	});
 
@@ -27,7 +27,7 @@ function generateCSSText() {
 		const state = elemTrophy.dataset.state;
 
 		if (state !== "0") {
-			code += ":" + trophy.variants[state].css_class + ":";
+			code += ":" + trophy.variants[state].css_text + ":";
 		}
 	});
 
@@ -36,20 +36,26 @@ function generateCSSText() {
 
 // Expects string in the format of :text1::text2:
 function parseFlairIntoStates(flairText) {
-	const flairs = flairText.slice(1, -1).split("::");
-	let states = {};
+	try {
+		const flairs = flairText.slice(1, -1).split("::");
+		let states = {};
 
-	trophies.forEach(trophy => {
-		for (const variant of variants) {
-			if (trophy.variants[variant] !== undefined && flairs.includes(trophy.variants[variant].css_text)) {
-				states[trophy.id] = variant;
-				return;
+		trophies.forEach(trophy => {
+			for (const variant of variants) {
+				if (trophy.variants[variant] !== undefined && flairs.includes(trophy.variants[variant].css_text)) {
+					states[trophy.id] = variant;
+					return;
+				}
 			}
-		}
-		states[trophy.id] = "0"; // Only executes if nothing found in loop
-	});
+			states[trophy.id] = "0"; // Only executes if nothing found in loop
+		});
 
-	return states;
+		return states;
+	}
+	catch {
+		console.log("Empty or invalid flair found.");
+		return {};
+	}
 }
 
 export {generateCSSClass, generateCSSText, parseFlairIntoStates};

@@ -11,7 +11,7 @@ function getExport() {
 	const str = localStorage.getItem("exportSubs");
 	if (str) {
 		exportSubs = JSON.parse(str);
-		exportSubs.map(sub => convertPrefix(sub, true));
+		exportSubs = exportSubs.map(sub => convertPrefix(sub, true));
 	}
 	return exportSubs;
 }
