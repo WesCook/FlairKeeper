@@ -180,8 +180,8 @@ function selectTrophyVariant() {
 }
 
 function updateFlairCodes() {
-	const flairClass = flairCodes.generateCSSText();
-	const flairText = flairCodes.generateCSSClass();
+	const flairClass = flairCodes.generateCSSClass();
+	const flairText = flairCodes.generateCSSText();
 
 	// Update text boxes values
 	elemOutputCSSText.value = flairText;
