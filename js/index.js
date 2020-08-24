@@ -5,6 +5,7 @@ import * as flairCodes from './modules/flair-codes.js';
 import * as auth from './modules/auth.js';
 import * as subPrefs from './modules/sub-preferences.js';
 
+const elemTrophyList = document.getElementById("trophy-list");
 const elemOutputCSSClass = document.getElementById("output-css-class");
 const elemOutputCSSText = document.getElementById("output-css-text");
 const elemCopyCSSClass = document.getElementById("output-css-class-copy");
@@ -18,16 +19,20 @@ listenerExportFocus();
 listenerBtnCopy();
 
 function createTrophyList() {
-	let elemTrophyList = document.getElementById("trophy-list");
 	elemTrophyList.innerHTML = "";
 	trophies.forEach(trophy => {
+		// Container
+		let trophyContainerDiv = document.createElement("div");
+		trophyContainerDiv.classList.add("trophy");
+		trophyContainerDiv.id = trophy.id;
+		trophyContainerDiv.dataset.state = 0;
+
+		// Trophy figure
 		let figure = document.createElement("figure");
 		let img = document.createElement("img");
 		let figcaption = document.createElement("figcaption");
 
-		figure.classList.add("trophy");
-		figure.id = trophy.id;
-		figure.dataset.unlocked = 0;
+		figure.classList.add("trophy-icon")
 		img.src = trophy.variants["Main"].icon;
 		img.alt = trophy.name;
 		figcaption.textContent = trophy.name;
@@ -35,7 +40,29 @@ function createTrophyList() {
 		figure.appendChild(img);
 		figure.appendChild(figcaption);
 		figure.addEventListener("click", toggleTrophy);
-		elemTrophyList.appendChild(figure);
+		trophyContainerDiv.appendChild(figure);
+
+		// Variant buttons
+		if (variants.length > 1) {
+			let variantsContainerDiv = document.createElement("div");
+			variantsContainerDiv.classList.add("variants-container");
+
+			if (Object.keys(trophy.variants).length > 1) { // Skip if "Main" is only variant
+				variants.forEach(variant => {
+					if (trophy.variants[variant] === undefined) {
+						return;
+					}
+
+					let variantButton = document.createElement("a");
+					variantButton.classList.add("variant-button");
+					variantButton.textContent = variant;
+					variantsContainerDiv.appendChild(variantButton);
+				});
+			}
+			trophyContainerDiv.appendChild(variantsContainerDiv);
+		}
+
+		elemTrophyList.appendChild(trophyContainerDiv);
 	});
 }
 
@@ -59,7 +86,6 @@ function importSetup() {
 
 async function btnImportClicked() {
 	let elemBtnExport = document.getElementById("btn-export");
-	let elemTrophyList = document.getElementById("trophy-list");
 
 	// Disable everything while loading
 	event.preventDefault(); // Stop form from firing
@@ -124,12 +150,12 @@ function emptyTrophyButtonState() {
 function setTrophyButtonState(trophyButtonState) {
 	let elemTrophyButtons = document.querySelectorAll("#trophy-list .trophy");
 	elemTrophyButtons.forEach(elemTrophyButton => {
-		elemTrophyButton.dataset.unlocked = (trophyButtonState[elemTrophyButton.id]) ? "1" : "0";
+		elemTrophyButton.dataset.state = (trophyButtonState[elemTrophyButton.id]) ? "1" : "0";
 	});
 }
 
 function toggleTrophy() {
-	this.dataset.unlocked ^= true;
+	this.parentElement.dataset.state ^= true;
 	updateFlairCodes();
 }
 

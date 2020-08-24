@@ -4,7 +4,7 @@ export function generateCSSText() {
 	let code = "";
 
 	trophies.forEach(trophy => {
-		if (document.getElementById(trophy.id).dataset.unlocked === "1") {
+		if (document.getElementById(trophy.id).dataset.state === "1") {
 			code += trophy.variants["Main"].css_text;
 		}
 	});
@@ -20,7 +20,7 @@ export function generateCSSClass() {
 	let code = "";
 
 	trophies.forEach(trophy => {
-		if (document.getElementById(trophy.id).dataset.unlocked === "1") {
+		if (document.getElementById(trophy.id).dataset.state === "1") {
 			code += ":" + trophy.variants["Main"].css_class + ":";
 		}
 	});

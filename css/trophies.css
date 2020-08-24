@@ -16,20 +16,27 @@
 }
 
 .trophy {
+	user-select: none;
+}
+
+.trophy-icon {
 	display: flex;
 	flex-direction: column;
+	cursor: pointer;
 	padding: 5px;
 	background-color: #3e3e3e;
 	min-height: 106px;
 	transition: opacity 0.1s ease;
-	cursor: pointer;
-	user-select: none;
-}
-.trophy[data-unlocked="0"] {
 	opacity: 25%;
 }
+.trophy:hover .trophy-icon {
+	opacity: 50%;
+}
+.trophy:not([data-state="0"]) .trophy-icon {
+	opacity: 100%;
+}
 
-.trophy img {
+.trophy-icon img {
 	align-self: center;
 	min-width: 64px;
 	min-height: 64px;
@@ -37,6 +44,27 @@
 	image-rendering: pixelated; /* Chrome */
 }
 
-.trophy figcaption {
+.trophy-icon figcaption {
 	margin-top: auto;
+}
+
+.variants-container {
+	display: flex;
+	font-size: 0.8em;
+}
+.variants-container:empty {
+	background-color: #222;
+	min-height: 21px;
+}
+
+.variant-button {
+	flex: 1;
+	opacity: 25%;
+	background-color: #3e3e3e;
+	cursor: pointer;
+}
+.variant-button:hover {
+	text-decoration: none;
+	color: inherit;
+	opacity: 50%;
 }
