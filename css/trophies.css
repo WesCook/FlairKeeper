@@ -68,3 +68,6 @@
 	color: inherit;
 	opacity: 50%;
 }
+.variant-button.variant-selected {
+	opacity: 100%;
+}

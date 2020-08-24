@@ -178,6 +178,16 @@ function updateTrophyState(trophyID) {
 		elemIcon.src = trophy.variants["Main"].icon;
 	}
 
+	// Update selected variant button
+	const elemVariantButtons = document.querySelectorAll("#" + trophyID + " .variant-button");
+	elemVariantButtons.forEach(elemVariantButton => {
+		if (elemVariantButton.textContent === state) {
+			elemVariantButton.classList.add("variant-selected");
+		} else {
+			elemVariantButton.classList.remove("variant-selected");
+		}
+	});
+
 	// Update text boxes values
 	elemOutputCSSText.value = flairText;
 	elemOutputCSSClass.value = flairClass;
