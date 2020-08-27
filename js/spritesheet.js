@@ -99,21 +99,10 @@ function listPermutations(permutations) {
 
 function generateCSS(permutations) {
 	let elemCSS = document.getElementById("output-css");
-
-	let content = `.flair[class$="T"]:after {
-	display: inline-block;
-	content: "";
-	height: 16px;
-	vertical-align: -5px;
-	margin: 0 3px;
-}
-.link .flair[class$="T"]:after {
-	margin-top: -4px !important;
-}\n\n`;
-
+	let content = "";
 	let y = 0;
 	permutations.forEach(permutation => {
-		content += `.flair-${ permutation.join('') }T:after {background: url(%%s%%) 0 -${ y * 16 }px; width: ${ permutation.length * 16 }px;}\n`;
+		content += `.flair-${ permutation.join('') }T {background-position: 0 -${ y * 16 }px; width: ${ permutation.length * 16 }px;}\n`;
 		y++;
 	});
 
@@ -201,7 +190,7 @@ function generatePreview(elemCanvas) {
 			document.getElementById("section-spritesheet").appendChild(elemImg);
 
 			let elemDownloadLink = document.getElementById("spritesheet-download");
-			elemDownloadLink.setAttribute("download", "s.png");
+			elemDownloadLink.setAttribute("download", "spritesheet.png");
 			elemDownloadLink.setAttribute("href", url);
 		} catch(err) {
 			console.log("There was an error rendering the canvas: " + err);
