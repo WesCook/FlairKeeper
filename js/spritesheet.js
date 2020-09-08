@@ -57,9 +57,8 @@ async function generatePermutations() {
 		The set of ordered subsequences is known as a powerset.  It's better explained here:
 		https://www.geeksforgeeks.org/generating-all-possible-subsequences-using-recursion/
 
-		This version is modified to also include variants for each element, which act as exclusive pairs.
-		eg. Main, SL1.
-		It grows exponentially (x^y-1), where x is the number of variants+1 and y is the number of entries.
+		This version is modified to also include variants for each element, which act as exclusive pairs.  eg. Main, SL1.
+		It grows exponentially: ((x + 1) ^ y) - 1, where x is the number of variants and y is the number of entries.
 		*/
 		let permutations = [];
 		function addSubsequences(index, subPermArray) {
