@@ -90,17 +90,21 @@ async function btnImportClicked() {
 	elemTrophyList.classList.add("disable-click");
 	emptyTrophyButtonState();
 
-	// Get flair data
+	// Get data
 	const importSub = subPrefs.getImport();
 	const reddit = await auth.getReddit();
 	const username = getUsername();
-	const flair = await reddit.getSubreddit(importSub).getUserFlair(username);
 
-	// Re-enable and update trophy buttons
-	elemBtnExport.disabled = false;
-	elemTrophyList.classList.remove("disable-click");
-	const state = flairCodes.parseFlairIntoStates(flair.flair_text);
-	setTrophyButtonState(state);
+	// If valid, fetch flair and update state
+	if (username) {
+		const flair = await reddit.getSubreddit(importSub).getUserFlair(username);
+		elemBtnExport.disabled = false;
+		elemTrophyList.classList.remove("disable-click");
+		const state = flairCodes.parseFlairIntoStates(flair.flair_text);
+		setTrophyButtonState(state);
+	} else {
+		console.log("Username is not valid");
+	}
 }
 
 async function btnExportClicked() {
@@ -130,10 +134,14 @@ async function btnExportClicked() {
 // Strips userpage URL and /u/ if present
 function getUsername() {
 	let username = elemUser.value;
-	let re = new RegExp('(user/|u/)?([a-zA-Z0-9\_\-]+)$');
+	let re = new RegExp('(user/|u/)?([a-zA-Z0-9\_\-]+)/?$');
 	let match = re.exec(username);
 
-	return match[2];
+	if (match) {
+		return match[2];
+	}
+
+	return null;
 }
 
 function emptyTrophyButtonState() {
