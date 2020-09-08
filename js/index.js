@@ -123,8 +123,7 @@ async function btnExportClicked() {
 	elemBtnExport.textContent = "Exported!";
 	setTimeout(() => {
 		elemBtnExport.textContent = "Export";
-	},
-	1500);
+	}, 1500);
 }
 
 // Gets username from input field

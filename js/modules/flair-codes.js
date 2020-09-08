@@ -37,7 +37,9 @@ function generateCSSText() {
 // Expects string in the format of :text1::text2:
 function parseFlairIntoStates(flairText) {
 	try {
-		const flairs = flairText.slice(1, -1).split("::");
+		const firstColonPos = flairText.indexOf(':');
+		const lastColonPos = flairText.lastIndexOf(':');
+		const flairs = flairText.slice(firstColonPos + 1, lastColonPos).split("::");
 		let states = {};
 
 		trophies.forEach(trophy => {

@@ -160,6 +160,5 @@ function buttonSave() {
 	elemSave.textContent = "Saved!";
 	setTimeout(() => {
 		elemSave.textContent = "Save";
-	},
-	1500);
+	}, 1500);
 }
