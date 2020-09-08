@@ -12,9 +12,26 @@ const elemOutputCSSClass = document.getElementById("output-css-class");
 const elemCopyCSSText = document.getElementById("output-css-text-copy");
 const elemCopyCSSClass = document.getElementById("output-css-class-copy");
 
+prefetchIcons();
 createTrophyList();
 prepareInputButton();
 wireButtons();
+
+// Add pre-fetching for each icon to speed up request when variants are selected
+function prefetchIcons() {
+	variants.forEach(variant => {
+		trophies.forEach(trophy => {
+			if (variant === "Main" || !trophy.variants[variant]) {
+				return;
+			}
+
+			let elemVariant = document.createElement("link");
+			elemVariant.rel = "prefetch";
+			elemVariant.href = trophy.variants[variant].icon;
+			document.head.appendChild(elemVariant);
+		});
+	});
+}
 
 function createTrophyList() {
 	elemTrophyList.innerHTML = "";
