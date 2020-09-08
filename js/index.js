@@ -93,18 +93,29 @@ async function btnImportClicked() {
 	// Get data
 	const importSub = subPrefs.getImport();
 	const reddit = await auth.getReddit();
+
+	// Verify username
 	const username = getUsername();
+	if (!username) {
+		console.log("Username is not valid");
+		return;
+	}
+
+	// Verify user exists
+	try {
+		await reddit.getUser(username).fetch();
+	}
+	catch {
+		console.log("User does not exist");
+		return;
+	}
 
 	// If valid, fetch flair and update state
-	if (username) {
-		const flair = await reddit.getSubreddit(importSub).getUserFlair(username);
-		elemBtnExport.disabled = false;
-		elemTrophyList.classList.remove("disable-click");
-		const state = flairCodes.parseFlairIntoStates(flair.flair_text);
-		setTrophyButtonState(state);
-	} else {
-		console.log("Username is not valid");
-	}
+	const flair = await reddit.getSubreddit(importSub).getUserFlair(username);
+	elemBtnExport.disabled = false;
+	elemTrophyList.classList.remove("disable-click");
+	const state = flairCodes.parseFlairIntoStates(flair.flair_text);
+	setTrophyButtonState(state);
 }
 
 async function btnExportClicked() {
