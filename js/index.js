@@ -101,21 +101,22 @@ async function btnImportClicked() {
 		return;
 	}
 
-	// Verify user exists
 	try {
-		await reddit.getUser(username).fetch();
+		// Check user exists and get flair simultaneously
+		const userPromise = reddit.getUser(username).fetch();
+		const flairPromise = reddit.getSubreddit(importSub).getUserFlair(username);
+		const values = await Promise.all([userPromise, flairPromise]);
+		const flair = values[1];
+
+		// Update state
+		elemBtnExport.disabled = false;
+		elemTrophyList.classList.remove("disable-click");
+		const state = flairCodes.parseFlairIntoStates(flair.flair_text);
+		setTrophyButtonState(state);
 	}
 	catch {
 		console.log("User does not exist");
-		return;
 	}
-
-	// If valid, fetch flair and update state
-	const flair = await reddit.getSubreddit(importSub).getUserFlair(username);
-	elemBtnExport.disabled = false;
-	elemTrophyList.classList.remove("disable-click");
-	const state = flairCodes.parseFlairIntoStates(flair.flair_text);
-	setTrophyButtonState(state);
 }
 
 async function btnExportClicked() {
