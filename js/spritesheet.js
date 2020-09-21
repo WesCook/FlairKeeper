@@ -101,7 +101,7 @@ function generateCSS(permutations) {
 	let content = "";
 	let y = 0;
 	permutations.forEach(permutation => {
-		content += `.flair-${ permutation.join('') }T {background-position: 0 -${ y * 16 }px; width: ${ permutation.length * 16 }px;}\n`;
+		content += `.flair-${ permutation.join('') }T {background: url(%%s%%) 0 -${ y * 16 }px; width: ${ permutation.length * 16 }px;}\n`;
 		y++;
 	});
 
@@ -189,7 +189,7 @@ function generatePreview(elemCanvas) {
 			document.getElementById("section-spritesheet").appendChild(elemImg);
 
 			let elemDownloadLink = document.getElementById("spritesheet-download");
-			elemDownloadLink.setAttribute("download", "spritesheet.png");
+			elemDownloadLink.setAttribute("download", "s.png");
 			elemDownloadLink.setAttribute("href", url);
 		} catch(err) {
 			console.log("There was an error rendering the canvas: " + err);
